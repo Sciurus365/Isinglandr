@@ -19,6 +19,7 @@ Imports:
     ggplot2,
     glue,
     magrittr,
+    rlang,
     simlandr,
     tibble,
     tidyr

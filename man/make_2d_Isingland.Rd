@@ -2,19 +2,11 @@
 % Please edit documentation in R/single_network_landscape.R
 \name{make_2d_Isingland}
 \alias{make_2d_Isingland}
-\alias{make_2d_Isingland.IsingFit}
-\alias{make_2d_Isingland.default}
 \title{Make a 2D landscape for an Ising network}
 \usage{
-make_2d_Isingland(...)
-
-\method{make_2d_Isingland}{IsingFit}(Ising_network, ...)
-
-\method{make_2d_Isingland}{default}(thresholds, weiadj, beta = 1, transform = FALSE)
+make_2d_Isingland(thresholds, weiadj, beta = 1, transform = FALSE)
 }
 \arguments{
-\item{Ising_network}{An \code{IsingFit} object from \code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}.}
-
 \item{thresholds}{Thresholds of the variables.}
 
 \item{weiadj}{The weighted adjacency matrix.}
@@ -24,6 +16,8 @@ make_2d_Isingland(...)
 \item{transform}{By default, this function considers the Ising network
 to use \code{-1} and \code{1} for two states. Set \code{transform = TRUE} if the Ising
 network uses \code{0} and \code{1} for two states.}
+
+\item{Ising_network}{An \code{IsingFit} object from \code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}.}
 }
 \value{
 A \verb{2d_Isingland} object that contains the result.

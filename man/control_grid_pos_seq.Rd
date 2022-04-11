@@ -6,22 +6,22 @@
 \title{Control Functions to Specify the Varying Parameters for
 an Ising Grid}
 \usage{
-control_grid_pos_seq(position, ...)
+control_grid_pos_seq(pos, seq)
 
-control_grid_seq(...)
+control_grid_seq(seq)
 }
 \arguments{
-\item{position}{The position of the single threshold or the weight
+\item{pos}{The position of the single threshold or the weight
 value that should vary across Ising networks. Should be a single
 number for \code{"single_threshold"} or a numeric vector of
 length 2 for \code{"single_wei"}.}
 
-\item{...}{Other parameters passed to \code{\link[=seq]{seq()}} that specify the
-sample grid.}
+\item{seq}{A vector that specify the values. Can be generated
+with \code{\link[=seq]{seq()}}.}
 }
 \description{
 Functions to use within \code{\link[=make_Ising_grid]{make_Ising_grid()}}.
-Use \code{control_grid_position_seq()} for types
+Use \code{control_grid_pos_seq()} for types
 \code{"single_threshold"} or \code{"single_wei"}; use \code{control_seq()} for
 types \code{"all_thresholds"}, \code{"whole_weiadj"}, or \code{"beta"}.
 }

@@ -1,15 +1,3 @@
-#' @rdname make_2d_Isingland.default
-#' @export
-make_2d_Isingland <- function(...) {
-  UseMethod("make_2d_Isingland")
-}
-
-#' @rdname make_2d_Isingland.default
-#' @export
-make_2d_Isingland.IsingFit <- function(Ising_network, ...) {
-  make_2d_Isingland.default(Ising_network$thresholds, Ising_network$weiadj, ...)
-}
-
 #' Make a 2D landscape for an Ising network
 #'
 #' @param Ising_network An `IsingFit` object from [IsingFit::IsingFit()].
@@ -22,7 +10,7 @@ make_2d_Isingland.IsingFit <- function(Ising_network, ...) {
 #'
 #' @return A `2d_Isingland` object that contains the result.
 #' @export
-make_2d_Isingland.default <- function(thresholds, weiadj, beta = 1, transform = FALSE) {
+make_2d_Isingland <- function(thresholds, weiadj, beta = 1, transform = FALSE) {
   Nvar <- length(thresholds)
 
   # transformation
@@ -61,10 +49,15 @@ make_2d_Isingland.default <- function(thresholds, weiadj, beta = 1, transform = 
 }
 
 #' @export
-print.2d_Isingland <- plot.2d_Isingland <- function(x, ...) {
+plot.2d_Isingland <- function(x, ...) {
   ggplot2::ggplot(data = x$dist, ggplot2::aes(x = n_active, y = U)) +
     ggplot2::geom_point() +
     ggplot2::geom_line() +
     ggplot2::theme_bw() +
     ggplot2::xlab("Number of active nodes")
+}
+
+#' @export
+print.landscape <- function(x, ...){
+	print(get_dist(x))
 }
