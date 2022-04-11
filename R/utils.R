@@ -1,0 +1,34 @@
+#' Calculate the Hamiltonian for a specific state of a network
+#'
+#' @param x The state of the network represented in a vector of `0L`
+#' and `1L`.
+#' @param m The threshold of each node in the network represented
+#' in a vector.
+#' @param w The edge weights of the network represented in a matrix
+#' with all zeros in the diagonal.
+#'
+#' @return The Hamiltonian.
+#' @noRd
+ham <- function(x, m, w) {
+  -(((t(x) %*% w %*% x) / 2) + (t(x) %*% m))
+}
+
+# The following two functions are adapted from the answer by englealuze in
+# https://stackoverflow.com/a/62006609/10397503
+
+# the solution of length len will be the solution of shorter length appended with each element in v
+all_combination <- function(v, len) {
+  if (len <= 1) {
+    as.list(v)
+  } else {
+    append_each_to_list(all_combination(v, len - 1), v)
+  }
+}
+
+# function to append each element in vector v to list L and return a list
+append_each_to_list <- function(L, v) {
+  purrr::flatten(lapply(
+    v,
+    function(n) lapply(L, function(l) c(l, n))
+  ))
+}
