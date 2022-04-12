@@ -4,22 +4,17 @@
 \alias{make_Ising_grid}
 \title{Make a Grid to Specify Multiple Ising Networks}
 \usage{
-make_Ising_grid(
-  type_par1,
-  control_par1,
-  type_par2 = NULL,
-  control_par2 = NULL,
-  thresholds,
-  weiadj,
-  beta = 1
-)
+make_Ising_grid(par1, par2 = NULL, thresholds, weiadj, beta = 1)
 }
 \arguments{
-\item{type_par1, type_par2}{One of \code{"single_threshold"},
-\code{"all_thresholds"}, \code{"single_wei"}, \code{"whole_weiadj"},
-or \code{"beta"}. \code{type_par2} can be left blank.}
+\item{par1, par2}{Generated from one of \code{\link[=single_threshold]{single_threshold()}},
+\code{\link[=all_thresholds]{all_thresholds()}}, \code{\link[=single_wei]{single_wei()}}\verb{, [whole_weiadj()], or [beta_list()]. }par2` can be left blank.}
 
-\item{control_par1, control_par2}{See \code{\link[=control_grid_pos_seq]{control_grid_pos_seq()}}.}
+\item{thresholds}{Thresholds of the variables.}
+
+\item{weiadj}{The weighted adjacency matrix.}
+
+\item{beta}{The \eqn{\beta} value for calculating the Hamiltonian.}
 }
 \description{
 \code{make_Ising_grid()} can specify one or two varying parameters for

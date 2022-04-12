@@ -7,44 +7,48 @@
 #'
 #' @export
 make_2d_Isingland_matrix <- function(Ising_grid, transform = FALSE) {
-	dist_raw <- Ising_grid %>%
-		dplyr::rowwise() %>%
-		dplyr::mutate(landscape = list(make_2d_Isingland(thresholds = thresholds_list,
-																								weiadj = weiadj_list,
-																								beta = beta_list,
-																								transform = transform)),
-									dist = list(get_dist(landscape))) %>%
-		dplyr::ungroup()
+  dist_raw <- Ising_grid %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(
+      landscape = list(make_2d_Isingland(
+        thresholds = thresholds_list,
+        weiadj = weiadj_list,
+        beta = beta_list,
+        transform = transform
+      )),
+      dist = list(get_dist(landscape))
+    ) %>%
+    dplyr::ungroup()
 
-	dist_tidy <- dist_raw %>%
-		dplyr::select(dist, dplyr::all_of(attr(Ising_grid, "par_name"))) %>%
-		tidyr::unnest(dist)
+  dist_tidy <- dist_raw %>%
+    dplyr::select(dist, dplyr::all_of(attr(Ising_grid, "par_name"))) %>%
+    tidyr::unnest(dist)
 
-	return(structure(
-		list(
-			dist_raw = dist_raw,
-			dist = dist_tidy
-		),
-		class = c("2d_Isingland_matrix", "Isingland", "landscape"),
-		par_name = attr(Ising_grid, "par_name")
-	))
+  return(structure(
+    list(
+      dist_raw = dist_raw,
+      dist = dist_tidy
+    ),
+    class = c("2d_Isingland_matrix", "Isingland", "landscape"),
+    par_name = attr(Ising_grid, "par_name")
+  ))
 }
 
 #' @export
 plot.2d_Isingland_matrix <- function(x, ...) {
-	p <- ggplot2::ggplot(data = x$dist, ggplot2::aes(x = n_active, y = U)) +
-		ggplot2::geom_point() +
-		ggplot2::geom_line() +
-		ggplot2::theme_bw() +
-		ggplot2::xlab("Number of active nodes")
+  p <- ggplot2::ggplot(data = x$dist, ggplot2::aes(x = n_active, y = U)) +
+    ggplot2::geom_point() +
+    ggplot2::geom_line() +
+    ggplot2::theme_bw() +
+    ggplot2::xlab("Number of active nodes")
 
-	if(length(attr(x, "par_name")) == 1){
-		p <- p + ggplot2::facet_wrap(attr(x, "par_name"))
-	} else if (length(attr(x, "par_name")) == 2){
-		p <- p + ggplot2::facet_grid(attr(x, "par_name")) +
-			ggplot2::scale_x_continuous(sec.axis = ggplot2::sec_axis(~ . , name = attr(x, "par_name")[2], breaks = NULL, labels = NULL)) +
-			ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis(~ . , name = attr(x, "par_name")[1], breaks = NULL, labels = NULL))
-	}
+  if (length(attr(x, "par_name")) == 1) {
+    p <- p + ggplot2::facet_wrap(attr(x, "par_name"))
+  } else if (length(attr(x, "par_name")) == 2) {
+    p <- p + ggplot2::facet_grid(attr(x, "par_name")) +
+      ggplot2::scale_x_continuous(sec.axis = ggplot2::sec_axis(~., name = attr(x, "par_name")[2], breaks = NULL, labels = NULL)) +
+      ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis(~., name = attr(x, "par_name")[1], breaks = NULL, labels = NULL))
+  }
 
-	plot(p)
+  plot(p)
 }

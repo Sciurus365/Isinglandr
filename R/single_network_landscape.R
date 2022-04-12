@@ -43,7 +43,10 @@ make_2d_Isingland <- function(thresholds, weiadj, beta = 1, transform = FALSE) {
       U = -log(sum_freq) / beta
     )
 
-  result <- list(dist_raw = d, dist = d_sum)
+  result <- list(
+    dist_raw = d, dist = d_sum, thresholds = thresholds,
+    weiadj = weiadj, beta = beta, Nvar = Nvar
+  )
   class(result) <- c("2d_Isingland", "Isingland", "landscape")
   return(result)
 }
@@ -58,6 +61,6 @@ plot.2d_Isingland <- function(x, ...) {
 }
 
 #' @export
-print.landscape <- function(x, ...){
-	print(get_dist(x))
+print.landscape <- function(x, ...) {
+  print(get_dist(x))
 }
