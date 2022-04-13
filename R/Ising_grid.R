@@ -39,7 +39,7 @@ make_Ising_grid <- function(par1, par2 = NULL,
 }
 
 make_Ising_condition_list <- function(par, thresholds, weiadj, beta) {
-  if (is(par, "ctrl_single_threshold")) {
+  if (methods::is(par, "ctrl_single_threshold")) {
     par_name <- glue::glue("threshold_{par$pos}")
     output <- tibble::tibble(
       "threshold_{par$pos}" := par$seq
@@ -53,7 +53,7 @@ make_Ising_condition_list <- function(par, thresholds, weiadj, beta) {
         },
         thresholds
       ))
-  } else if (is(par, "ctrl_all_thresholds")) {
+  } else if (methods::is(par, "ctrl_all_thresholds")) {
     par_name <- "all_thresholds"
     output <- tibble::tibble(
       all_thresholds = par$seq
@@ -61,7 +61,7 @@ make_Ising_condition_list <- function(par, thresholds, weiadj, beta) {
       dplyr::rowwise() %>%
       dplyr::mutate(thresholds_list = list(all_thresholds * thresholds)) %>%
       dplyr::ungroup()
-  } else if (is(par, "ctrl_single_wei")) {
+  } else if (methods::is(par, "ctrl_single_wei")) {
     par_name <- glue::glue("wei_{par$pos[1]}_{par$pos[2]}")
     output <- tibble::tibble(
       "wei_{par$pos[1]}_{par$pos[2]}" := par$seq
@@ -76,7 +76,7 @@ make_Ising_condition_list <- function(par, thresholds, weiadj, beta) {
         },
         weiadj
       ))
-  } else if (is(par, "ctrl_whole_weiadj")) {
+  } else if (methods::is(par, "ctrl_whole_weiadj")) {
     par_name <- "whole_weiadj"
     output <- tibble::tibble(
       whole_weiadj = par$seq
@@ -84,7 +84,7 @@ make_Ising_condition_list <- function(par, thresholds, weiadj, beta) {
       dplyr::rowwise() %>%
       dplyr::mutate(weiadj_list = list(whole_weiadj * weiadj)) %>%
       dplyr::ungroup()
-  } else if (is(par, "ctrl_beta_list")) {
+  } else if (methods::is(par, "ctrl_beta_list")) {
     par_name <- "beta_list"
     output <- tibble::tibble(
       beta_list = par$seq
@@ -97,7 +97,7 @@ make_Ising_condition_list <- function(par, thresholds, weiadj, beta) {
 
 generator_control_pos_seq <- function(type) {
   function(pos, seq) {
-    if (!is(pos, "numeric")) {
+    if (!methods::is(pos, "numeric")) {
       abort_bad_argument("pos", "be a numeric object", class(pos))
     }
     return(structure(list(pos = pos, seq = seq), class = c(paste0("ctrl_", type), "ctrl_pos_seq", "ctrl")))

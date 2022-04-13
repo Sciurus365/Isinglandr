@@ -4,16 +4,18 @@
 \name{Isinglandr-package}
 \alias{Isinglandr}
 \alias{Isinglandr-package}
-\title{Isinglandr: What the Package Does (Title Case)}
+\title{Isinglandr: Landscape Construction and Simulation for Ising Networks}
 \description{
-More about what it does (maybe more than one line) Use four spaces when indenting paragraphs within the Description.
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
+A toolbox for constructing potential landscapes for Ising networks, which can be estimated by the `Isingfit` package <https://CRAN.R-project.org/package=IsingFit>. The landscapes preserve the steady-state distribution of the original model with Glauber dynamics (Glauber, 1963) <doi:10.1063/1.1703954> and can be used for visualizing and quantifying the stabilities of different activation states and visualizing the simulation process.
 }
 \author{
 \strong{Maintainer}: Jingmeng Cui \email{jingmeng.cui@outlook.com} (\href{https://orcid.org/0000-0003-3421-8457}{ORCID})
 
-Authors:
+Other contributors:
 \itemize{
-  \item Gabriela Lunansky
+  \item Gabriela Lunansky [contributor]
 }
 
 }

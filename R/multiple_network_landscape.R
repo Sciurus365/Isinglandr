@@ -18,7 +18,8 @@ make_2d_Isingland_matrix <- function(Ising_grid, transform = FALSE) {
       )),
       dist = list(get_dist(landscape))
     ) %>%
-    dplyr::ungroup()
+    dplyr::ungroup() %>%
+  	dplyr::select(-thresholds_list, -weiadj_list)
 
   dist_tidy <- dist_raw %>%
     dplyr::select(dist, dplyr::all_of(attr(Ising_grid, "par_name"))) %>%
@@ -50,5 +51,5 @@ plot.2d_Isingland_matrix <- function(x, ...) {
       ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis(~., name = attr(x, "par_name")[1], breaks = NULL, labels = NULL))
   }
 
-  plot(p)
+  return(p)
 }

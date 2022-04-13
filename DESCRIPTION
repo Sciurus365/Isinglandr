@@ -1,14 +1,20 @@
 Package: Isinglandr
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Landscape Construction and Simulation for Ising Networks
 Version: 0.0.0.9000
 Authors@R: c(person(given = "Jingmeng", family = "Cui", 
 		email = "jingmeng.cui@outlook.com",
 		role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3421-8457")),
 		person(given = "Gabriela", family = "Lunansky",
-		role = "aut"))
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+		role = "ctb"))
+Description: A toolbox for constructing potential landscapes for Ising
+		networks, which can be estimated by the `Isingfit` package 
+		<https://CRAN.R-project.org/package=IsingFit>. The landscapes 
+		preserve the steady-state distribution of the original model
+		with Glauber dynamics (Glauber, 1963) <doi:10.1063/1.1703954>
+		and can be used for visualizing and quantifying the stabilities 
+		of different activation states and visualizing the simulation 
+		process.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
@@ -20,7 +26,10 @@ Imports:
     ggplot2,
     glue,
     magrittr,
+    methods,
+    purrr,
     rlang,
     simlandr,
     tibble,
-    tidyr
+    tidyr,
+    utils
