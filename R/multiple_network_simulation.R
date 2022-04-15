@@ -1,7 +1,13 @@
-#' Title
+#' Simulate multiple 2D Ising landscapes together
 #'
 #' @inheritParams simulate_2d_Isingland
-#' @return
+#' @return A `sim_2d_Isingland_matrix` object with the following components:
+#' \itemize{
+#'  \item `output` A tibble of the simulation output.
+#'  \item `landscape` The landscape object supplied to this function.
+#'  \item `mode` A character representing the mode of the simulation.
+#' }
+#' @seealso [simulate_2d_Isingland()]
 #' @export
 simulate_2d_Isingland_matrix <- function(l, mode = "single",
 																				 initial = 0, length = 100, beta2 = NULL){

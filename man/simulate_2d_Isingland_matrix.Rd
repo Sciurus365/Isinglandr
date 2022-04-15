@@ -2,7 +2,7 @@
 % Please edit documentation in R/multiple_network_simulation.R
 \name{simulate_2d_Isingland_matrix}
 \alias{simulate_2d_Isingland_matrix}
-\title{Title}
+\title{Simulate multiple 2D Ising landscapes together}
 \usage{
 simulate_2d_Isingland_matrix(
   l,
@@ -13,17 +13,34 @@ simulate_2d_Isingland_matrix(
 )
 }
 \arguments{
-\item{l}{A landscape from Ising network.}
+\item{l}{An \verb{2d_Isingland} object constructed with \code{\link[=make_2d_Isingland]{make_2d_Isingland()}}.}
 
-\item{mode}{One of \code{"single"}, \code{"distribution"}.}
+\item{mode}{One of \code{"single"}, \code{"distribution"}. Do you want to simulate
+the state of a single system stochastically or simulate the distribution
+of the states? \code{"single"} is used by default.}
 
 \item{initial}{An integer indicating the initial number
 of active nodes for the simulation. Float numbers will be
 converted to an integer automatically.}
+
+\item{length}{An integer indicating the simulation length.}
+
+\item{beta2}{The \eqn{beta} value used for simulation. By default use
+the same value as for landscape construction. Manually setting this
+value can make the system easier or more difficult to transition
+to another state, but will alter the steady-state distribution as well.}
 }
 \value{
-
+A \code{sim_2d_Isingland_matrix} object with the following components:
+\itemize{
+\item \code{output} A tibble of the simulation output.
+\item \code{landscape} The landscape object supplied to this function.
+\item \code{mode} A character representing the mode of the simulation.
+}
 }
 \description{
-Title
+Simulate multiple 2D Ising landscapes together
+}
+\seealso{
+\code{\link[=simulate_2d_Isingland]{simulate_2d_Isingland()}}
 }

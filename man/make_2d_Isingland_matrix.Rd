@@ -2,7 +2,7 @@
 % Please edit documentation in R/multiple_network_landscape.R
 \name{make_2d_Isingland_matrix}
 \alias{make_2d_Isingland_matrix}
-\title{Make a Matrix of Landscapes for Multiple Ising Networks}
+\title{Make a matrix of landscapes for multiple Ising networks}
 \usage{
 make_2d_Isingland_matrix(Ising_grid, transform = FALSE)
 }
@@ -11,11 +11,17 @@ make_2d_Isingland_matrix(Ising_grid, transform = FALSE)
 
 \item{transform}{By default, this function considers the Ising network
 to use \code{-1} and \code{1} for two states. Set \code{transform = TRUE} if the Ising
-network uses \code{0} and \code{1} for two states.}
+network uses \code{0} and \code{1} for two states, \emph{which is often the case for the
+Ising networks estimated using} \code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}.}
 }
 \value{
-
+A \verb{2d_Isingland_matrix} object that contains the following
+components:
+\itemize{
+\item \code{dist_raw},\code{dist} Two tibbles containing the probability
+distribution and the potential values for different states.
+}
 }
 \description{
-Make a Matrix of Landscapes for Multiple Ising Networks
+Make multiple landscapes together for different parameters.
 }

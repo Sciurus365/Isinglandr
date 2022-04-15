@@ -2,7 +2,7 @@
 % Please edit documentation in R/single_network_simulation.R
 \name{simulate_2d_Isingland}
 \alias{simulate_2d_Isingland}
-\title{Simulate from a Landscape}
+\title{Simulate an 2D Ising landscape}
 \usage{
 simulate_2d_Isingland(
   l,
@@ -13,17 +13,38 @@ simulate_2d_Isingland(
 )
 }
 \arguments{
-\item{l}{A landscape from Ising network.}
+\item{l}{An \verb{2d_Isingland} object constructed with \code{\link[=make_2d_Isingland]{make_2d_Isingland()}}.}
 
-\item{mode}{One of \code{"single"}, \code{"distribution"}.}
+\item{mode}{One of \code{"single"}, \code{"distribution"}. Do you want to simulate
+the state of a single system stochastically or simulate the distribution
+of the states? \code{"single"} is used by default.}
 
 \item{initial}{An integer indicating the initial number
 of active nodes for the simulation. Float numbers will be
 converted to an integer automatically.}
+
+\item{length}{An integer indicating the simulation length.}
+
+\item{beta2}{The \eqn{beta} value used for simulation. By default use
+the same value as for landscape construction. Manually setting this
+value can make the system easier or more difficult to transition
+to another state, but will alter the steady-state distribution as well.}
 }
 \value{
-
+A \code{sim_2d_Isingland} object with the following components:
+\itemize{
+\item \code{output} A tibble of the simulation output.
+\item \code{landscape} The landscape object supplied to this function.
+\item \code{mode} A character representing the mode of the simulation.
+}
 }
 \description{
-Simulate from a Landscape
+Perform a numeric simulation using a landscape. The simulation is
+based on the Glauber dynamics, which means the transition possibility
+is determined by the difference in energy.
+Note that, the conditional transition possibility of this simulation
+is different from that using the original Ising model. However, the
+steady-state distribution is preserved.
+You can choose to simulate the state of a single system
+stochastically or simulate the distribution of the states.
 }

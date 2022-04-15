@@ -12,7 +12,7 @@ Description: A toolbox for constructing potential landscapes for Ising
 		<https://CRAN.R-project.org/package=IsingFit>. The landscapes 
 		preserve the steady-state distribution of the original model
 		with Glauber dynamics (Glauber, 1963) <doi:10.1063/1.1703954>
-		and can be used for visualizing and quantifying the stabilities 
+		and can be used for visualizing and quantifying the stability 
 		of different activation states and visualizing the simulation 
 		process.
 License: GPL (>= 3)

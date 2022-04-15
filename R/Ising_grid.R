@@ -1,13 +1,30 @@
 #' Make a Grid to Specify Multiple Ising Networks
 #'
-#' `make_Ising_grid()` can specify one or two varying parameters for
+#' Specify one or two varying parameters for
 #' Ising networks. The output of `make_Ising_grid()` can be used to
 #' make landscapes of multiple networks.
 #'
+#' There are five possible ways to vary the parameters for Ising networks,
+#' corresponding two five control functions:
+#' \itemize{
+#'   \item [single_threshold()] Vary a threshold value for a single variable.
+#'   \item [all_thresholds()] Vary all threshold values together.
+#'   \item [single_wei()] Vary a single weight value for a path between two
+#'   variables.
+#'   \item [whole_weiadj()] Vary the whole weighted adjacency matrix.
+#'   \item [beta_list()] Use a list of different beta values.
+#' }
+#'
+#' See corresponding functions for details.
+#'
 #' @param par1,par2 Generated from one of [single_threshold()],
 #' [all_thresholds()], [single_wei()]`, [whole_weiadj()],
-#' or [beta_list()]. `par2` can be left blank.
+#' or [beta_list()]. `par2` can be left blank if you only
+#' want to vary one parameter.
 #' @inheritParams make_2d_Isingland
+#'
+#' @return An `Ising_grid` object that is based on a tibble and
+#' contains the information of all simulation conditions.
 #'
 #' @export
 make_Ising_grid <- function(par1, par2 = NULL,
@@ -59,7 +76,7 @@ make_Ising_condition_list <- function(par, thresholds, weiadj, beta) {
       all_thresholds = par$seq
     ) %>%
       dplyr::rowwise() %>%
-      dplyr::mutate(thresholds_list = list(all_thresholds * thresholds)) %>%
+      dplyr::mutate(thresholds_list = list(par$.f(all_thresholds, thresholds))) %>%
       dplyr::ungroup()
   } else if (methods::is(par, "ctrl_single_wei")) {
     par_name <- glue::glue("wei_{par$pos[1]}_{par$pos[2]}")
@@ -82,7 +99,7 @@ make_Ising_condition_list <- function(par, thresholds, weiadj, beta) {
       whole_weiadj = par$seq
     ) %>%
       dplyr::rowwise() %>%
-      dplyr::mutate(weiadj_list = list(whole_weiadj * weiadj)) %>%
+      dplyr::mutate(weiadj_list = list(par$.f(whole_weiadj, weiadj))) %>%
       dplyr::ungroup()
   } else if (methods::is(par, "ctrl_beta_list")) {
     par_name <- "beta_list"
@@ -105,8 +122,8 @@ generator_control_pos_seq <- function(type) {
 }
 
 generator_control_seq <- function(type) {
-  function(seq) {
-    return(structure(list(seq = seq), class = c(paste0("ctrl_", type), "ctrl_seq", "ctrl")))
+  function(seq, .f = `*`) {
+    return(structure(list(seq = seq, .f = .f), class = c(paste0("ctrl_", type), "ctrl_seq", "ctrl")))
   }
 }
 
@@ -122,6 +139,14 @@ generator_control_seq <- function(type) {
 #'
 #' @param seq A vector that specify the values. Can be generated
 #' with [seq()].
+#'
+#' @param .f What calculation should be done for `seq`
+#' and the original threshold values or the original weighted
+#' adjacency matrix? `*` by default, which means the values supplied
+#' in `seq` will be multiplied to the original vector or matrix. Only for
+#' [all_thresholds()] and [whole_weiadj].
+#'
+#'
 #'
 #' @export
 single_threshold <- generator_control_pos_seq("single_threshold")

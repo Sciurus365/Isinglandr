@@ -10,15 +10,36 @@ U <- function(l, x){
 	return(as.numeric(get_dist(l)[x+1, "U"]))
 }
 
-#' Simulate from a Landscape
+#' Simulate an 2D Ising landscape
 #'
-#' @param l A landscape from Ising network.
-#' @param mode One of `"single"`, `"distribution"`.
+#' Perform a numeric simulation using a landscape. The simulation is
+#' based on the Glauber dynamics, which means the transition possibility
+#' is determined by the difference in energy.
+#' Note that, the conditional transition possibility of this simulation
+#' is different from that using the original Ising model. However, the
+#' steady-state distribution is preserved.
+#' You can choose to simulate the state of a single system
+#' stochastically or simulate the distribution of the states.
+#'
+#' @param l An `2d_Isingland` object constructed with [make_2d_Isingland()].
+#' @param mode One of `"single"`, `"distribution"`. Do you want to simulate
+#' the state of a single system stochastically or simulate the distribution
+#' of the states? `"single"` is used by default.
 #' @param initial An integer indicating the initial number
 #' of active nodes for the simulation. Float numbers will be
 #' converted to an integer automatically.
+#' @param length An integer indicating the simulation length.
+#' @param beta2 The \eqn{beta} value used for simulation. By default use
+#' the same value as for landscape construction. Manually setting this
+#' value can make the system easier or more difficult to transition
+#' to another state, but will alter the steady-state distribution as well.
 #'
-#' @return
+#' @return A `sim_2d_Isingland` object with the following components:
+#' \itemize{
+#'  \item `output` A tibble of the simulation output.
+#'  \item `landscape` The landscape object supplied to this function.
+#'  \item `mode` A character representing the mode of the simulation.
+#' }
 #' @export
 simulate_2d_Isingland <- function(l, mode = "single",
 																	initial = 0, length = 100, beta2 = l$beta) {

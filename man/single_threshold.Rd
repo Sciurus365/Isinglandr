@@ -13,11 +13,11 @@ single_threshold(pos, seq)
 
 single_wei(pos, seq)
 
-all_thresholds(seq)
+all_thresholds(seq, .f = `*`)
 
-whole_weiadj(seq)
+whole_weiadj(seq, .f = `*`)
 
-beta_list(seq)
+beta_list(seq, .f = `*`)
 }
 \arguments{
 \item{pos}{The position of the single threshold or the weight
@@ -27,6 +27,12 @@ length 2 for \code{\link[=single_wei]{single_wei()}}.}
 
 \item{seq}{A vector that specify the values. Can be generated
 with \code{\link[=seq]{seq()}}.}
+
+\item{.f}{What calculation should be done for \code{seq}
+and the original threshold values or the original weighted
+adjacency matrix? \code{*} by default, which means the values supplied
+in \code{seq} will be multiplied to the original vector or matrix. Only for
+\code{\link[=all_thresholds]{all_thresholds()}} and \link{whole_weiadj}.}
 }
 \description{
 Functions to use within \code{\link[=make_Ising_grid]{make_Ising_grid()}}.

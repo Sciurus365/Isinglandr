@@ -7,21 +7,29 @@
 make_2d_Isingland(thresholds, weiadj, beta = 1, transform = FALSE)
 }
 \arguments{
-\item{thresholds}{Thresholds of the variables.}
-
-\item{weiadj}{The weighted adjacency matrix.}
+\item{thresholds, weiadj}{The thresholds and the weighted adjacency matrix
+of the Ising network. If you have an \code{IsingFit} object estimated using
+\code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}, you can find those two parameters in its components
+(\verb{<IsingFit>$thresholds} and \verb{<IsingFit>$weiadj}).}
 
 \item{beta}{The \eqn{\beta} value for calculating the Hamiltonian.}
 
 \item{transform}{By default, this function considers the Ising network
 to use \code{-1} and \code{1} for two states. Set \code{transform = TRUE} if the Ising
-network uses \code{0} and \code{1} for two states.}
-
-\item{Ising_network}{An \code{IsingFit} object from \code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}.}
+network uses \code{0} and \code{1} for two states, \emph{which is often the case for the
+Ising networks estimated using} \code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}.}
 }
 \value{
-A \verb{2d_Isingland} object that contains the result.
+A \verb{2d_Isingland} object that contains the following components:
+\itemize{
+\item \code{dist_raw},\code{dist} Two tibbles containing the probability
+distribution and the potential values for different states.
+\item \code{thresholds},\code{weiadj},\code{beta} The parameters supplied to the function.
+\item \code{Nvar} The number of variables (nodes) in the Ising network.
+}
 }
 \description{
-Make a 2D landscape for an Ising network
+The potential value is calculated as the logarithm of the steady-state
+distribution, which is, in turn, calculated from the Hamiltonian of
+the Ising network.
 }

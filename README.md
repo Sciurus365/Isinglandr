@@ -1,12 +1,18 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Isinglandr <img src='man/figures/logo.png' align="right" height="138" />
+# `Isinglandr`: Landscape Construction and Simulation for Ising Networks <img src='man/figures/logo.png' align="right" height="138" />
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of Isinglandr is to …
+A toolbox for constructing potential landscapes for Ising networks,
+which can be estimated by the `Isingfit` package
+<https://CRAN.R-project.org/package=IsingFit>. The landscapes preserve
+the steady-state distribution of the original model with Glauber
+dynamics (Glauber, 1963) <doi:10.1063/1.1703954> and can be used for
+visualizing and quantifying the stability of different activation states
+and visualizing the simulation process.
 
 ## Installation
 
@@ -55,8 +61,8 @@ plot(result3)
 ``` r
 ## Multiple networks together
 result4 <- make_Ising_grid(
-  all_thresholds(seq(0.8, 1.2, 0.2)),
-  whole_weiadj(seq(0.8, 1.2, 0.2)),
+  all_thresholds(seq(-0.1, 0.1, 0.1), .f = `+`),
+  whole_weiadj(seq(0.5, 1.5, 0.5)),
   m, w
 ) %>% make_2d_Isingland_matrix()
 plot(result4)
