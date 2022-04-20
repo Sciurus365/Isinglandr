@@ -4,6 +4,8 @@
 # `Isinglandr`: Landscape Construction and Simulation for Ising Networks <img src='man/figures/logo.png' align="right" height="138" />
 
 <!-- badges: start -->
+
+![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)
 <!-- badges: end -->
 
 A toolbox for constructing potential landscapes for Ising networks,
@@ -73,14 +75,16 @@ plot(result4)
 ### Simulation on landscapes
 
 ``` r
-sim1 <- simulate_2d_Isingland(result1, initial = 5)
+set.seed(1614)
+sim1 <- simulate_Isingland(result1, initial = 5)
 plot(sim1)
 ```
 
 <img src="man/figures/README-unnamed-chunk-2-1.gif" width="100%" />
 
 ``` r
-sim4 <- simulate_2d_Isingland_matrix(result4, initial = 5)
+set.seed(1614)
+sim4 <- simulate_Isingland(result4, initial = 5)
 plot(sim4)
 ```
 

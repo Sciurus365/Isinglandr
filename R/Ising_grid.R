@@ -5,7 +5,7 @@
 #' make landscapes of multiple networks.
 #'
 #' There are five possible ways to vary the parameters for Ising networks,
-#' corresponding two five control functions:
+#' corresponding to five control functions:
 #' \itemize{
 #'   \item [single_threshold()] Vary a threshold value for a single variable.
 #'   \item [all_thresholds()] Vary all threshold values together.
@@ -15,7 +15,7 @@
 #'   \item [beta_list()] Use a list of different beta values.
 #' }
 #'
-#' See corresponding functions for details.
+#' See [make_Ising_grid-control-functions] for details.
 #'
 #' @param par1,par2 Generated from one of [single_threshold()],
 #' [all_thresholds()], [single_wei()]`, [whole_weiadj()],
@@ -128,9 +128,7 @@ generator_control_seq <- function(type) {
 }
 
 #' Control Functions to Specify the Varying Parameters for
-#' an Ising Grid
-#'
-#' Functions to use within [make_Ising_grid()].
+#' an Ising Grid.
 #'
 #' @param pos The position of the single threshold or the weight
 #' value that should vary across Ising networks. Should be a single
@@ -138,31 +136,32 @@ generator_control_seq <- function(type) {
 #' length 2 for [single_wei()].
 #'
 #' @param seq A vector that specify the values. Can be generated
-#' with [seq()].
+#' with [base::seq()].
 #'
 #' @param .f What calculation should be done for `seq`
 #' and the original threshold values or the original weighted
 #' adjacency matrix? `*` by default, which means the values supplied
 #' in `seq` will be multiplied to the original vector or matrix. Only for
-#' [all_thresholds()] and [whole_weiadj].
-#'
-#'
-#'
+#' [all_thresholds()] and [whole_weiadj()].
+#' @name make_Ising_grid-control-functions
+NULL
+
+#' @rdname make_Ising_grid-control-functions
 #' @export
 single_threshold <- generator_control_pos_seq("single_threshold")
 
-#' @rdname single_threshold
+#' @rdname make_Ising_grid-control-functions
 #' @export
 single_wei <- generator_control_pos_seq("single_wei")
 
-#' @rdname single_threshold
+#' @rdname make_Ising_grid-control-functions
 #' @export
 all_thresholds <- generator_control_seq("all_thresholds")
 
-#' @rdname single_threshold
+#' @rdname make_Ising_grid-control-functions
 #' @export
 whole_weiadj <- generator_control_seq("whole_weiadj")
 
-#' @rdname single_threshold
+#' @rdname make_Ising_grid-control-functions
 #' @export
 beta_list <- generator_control_seq("beta_list")

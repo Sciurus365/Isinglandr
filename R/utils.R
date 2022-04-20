@@ -32,3 +32,24 @@ append_each_to_list <- function(L, v) {
     function(n) lapply(L, function(l) c(l, n))
   ))
 }
+
+# This function is adapted from
+# https://adv-r.hadley.nz/conditions.html?q=abort#custom-conditions
+# by Hadley Wickham.
+abort_bad_argument <- function(arg, must, not = NULL) {
+	msg <- glue::glue("`{arg}` must {must}")
+	if (!is.null(not)) {
+		not <- typeof(not)
+		msg <- glue::glue("{msg}; not {not}.")
+	}
+
+	rlang::abort("error_bad_argument",
+							 message = msg,
+							 arg = arg,
+							 must = must,
+							 not = not
+	)
+}
+
+# Undefined global
+utils::globalVariables(c(".data", ".env", "density", "dist", "freq", "landscape", "n_active", "sim", "sim_output", "sum_freq", "sum_state", "thresholds_list", "time", "v", "weiadj_list"))

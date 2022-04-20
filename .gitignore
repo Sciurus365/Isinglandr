@@ -6,3 +6,5 @@
 *.temp.R
 *.RData
 *.ai
+
+README_cache/

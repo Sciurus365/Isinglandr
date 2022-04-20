@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # `Isinglandr`: Landscape Construction and Simulation for Ising Networks <img src='man/figures/logo.png' align="right" height="138" />
 
 <!-- badges: start -->
+![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)
 <!-- badges: end -->
 
 A toolbox for constructing potential landscapes for Ising networks, which can be estimated by the `Isingfit` package <https://CRAN.R-project.org/package=IsingFit>. The landscapes preserve the steady-state distribution of the original model with Glauber dynamics (Glauber, 1963) <doi:10.1063/1.1703954> and can be used for visualizing and quantifying the stability of different activation states and visualizing the simulation 
@@ -64,11 +65,13 @@ plot(result4)
 
 ### Simulation on landscapes
 
-```{r message=FALSE}
-sim1 <- simulate_2d_Isingland(result1, initial = 5)
+```{r message=FALSE, cache=TRUE}
+set.seed(1614)
+sim1 <- simulate_Isingland(result1, initial = 5)
 plot(sim1)
 
-sim4 <- simulate_2d_Isingland_matrix(result4, initial = 5)
+set.seed(1614)
+sim4 <- simulate_Isingland(result4, initial = 5)
 plot(sim4)
 ```
 

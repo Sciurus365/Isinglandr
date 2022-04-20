@@ -21,7 +21,7 @@ U <- function(l, x){
 #' You can choose to simulate the state of a single system
 #' stochastically or simulate the distribution of the states.
 #'
-#' @param l An `2d_Isingland` object constructed with [make_2d_Isingland()].
+#' @param l An `Isingland` object constructed with [make_2d_Isingland()] or [make_2d_Isingland_matrix()].
 #' @param mode One of `"single"`, `"distribution"`. Do you want to simulate
 #' the state of a single system stochastically or simulate the distribution
 #' of the states? `"single"` is used by default.
@@ -33,16 +33,23 @@ U <- function(l, x){
 #' the same value as for landscape construction. Manually setting this
 #' value can make the system easier or more difficult to transition
 #' to another state, but will alter the steady-state distribution as well.
+#' @param ... Not in use.
 #'
-#' @return A `sim_2d_Isingland` object with the following components:
+#' @return A `sim_Isingland` object with the following components:
 #' \itemize{
 #'  \item `output` A tibble of the simulation output.
 #'  \item `landscape` The landscape object supplied to this function.
 #'  \item `mode` A character representing the mode of the simulation.
 #' }
 #' @export
-simulate_2d_Isingland <- function(l, mode = "single",
-																	initial = 0, length = 100, beta2 = l$beta) {
+simulate_Isingland <- function(l, ...) {
+	UseMethod("simulate_Isingland", l)
+}
+
+#' @export
+#' @rdname simulate_Isingland
+simulate_Isingland.2d_Isingland <- function(l, mode = "single",
+																	initial = 0, length = 100, beta2 = l$beta, ...) {
 	mode <- pmatch(mode, c("single", "distribution"))
 	if (is.na(mode)) abort_bad_argument("mode", "be one of 'single', 'distribution'.")
 	if (!is.numeric(initial)) abort_bad_argument("initial", "be a numeric value.")
@@ -104,6 +111,32 @@ simulate_2d_Isingland <- function(l, mode = "single",
 	)
 }
 
+#' @rdname simulate_Isingland
+#' @export
+simulate_Isingland.2d_Isingland_matrix <- function(l, mode = "single",
+																									 initial = 0, length = 100, beta2 = NULL, ...){
+	output <- l$dist_raw
+	output <- output %>%
+		dplyr::rowwise() %>%
+		dplyr::mutate(beta2 = ifelse(is.null(.env$beta2), beta_list, beta2)) %>%
+		dplyr::mutate(sim = list(simulate_Isingland(l = landscape, mode = mode, initial = initial, length = length, beta2 = .data$beta2))) %>%
+		dplyr::mutate(sim_output = list(sim$output)) %>%
+		dplyr::ungroup()
+
+	mode <- output$sim[[1]]$mode
+	output <- output %>%
+		dplyr::select(-c(landscape, sim, dist)) %>%
+		tidyr::unnest(sim_output)
+
+	return(return(
+		structure(
+			list(output = output, landscape = l, mode = mode),
+			class = c("sim_2d_Isingland_matrix", "sim_Isingland")
+		)
+	))
+}
+
+
 #' @export
 print.sim_Isingland <- function(x, ...) {
 	print(x$output)
@@ -133,6 +166,35 @@ plot.sim_2d_Isingland <- function(x, ...){
 			ggplot2::scale_alpha_continuous(range = c(0,1)) +
 			gganimate::transition_time(time) +
 			ggplot2::ggtitle("Time: {frame_time}")
+		)
+	}
+}
+
+
+#' @export
+plot.sim_2d_Isingland_matrix <- function(x, ...){
+	tmax <- max(x$output$time)
+
+	d <- x$output %>%
+		dplyr::left_join(x$landscape$dist, by = c("n_active", attr(x$landscape, "par_name")))
+
+	if (x$mode == "single"){
+		return(
+			plot.2d_Isingland_matrix(x$landscape) +
+				ggplot2::geom_point(ggplot2::aes(x = n_active, y = U),
+														data = d, size = 10, color = "black") +
+				gganimate::transition_time(time) +
+				ggplot2::ggtitle("Time: {frame_time}")
+		)
+	} else if (x$mode == "distribution"){
+		return(
+			plot.2d_Isingland_matrix(x$landscape) +
+				ggplot2::geom_point(ggplot2::aes(x = n_active, y = U,
+																				 alpha = density),
+														data = d, color = "black", size = 10) +
+				ggplot2::scale_alpha_continuous(range = c(0,1)) +
+				gganimate::transition_time(time) +
+				ggplot2::ggtitle("Time: {frame_time}")
 		)
 	}
 }

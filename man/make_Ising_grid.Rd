@@ -34,7 +34,7 @@ make landscapes of multiple networks.
 }
 \details{
 There are five possible ways to vary the parameters for Ising networks,
-corresponding two five control functions:
+corresponding to five control functions:
 \itemize{
 \item \code{\link[=single_threshold]{single_threshold()}} Vary a threshold value for a single variable.
 \item \code{\link[=all_thresholds]{all_thresholds()}} Vary all threshold values together.
@@ -44,5 +44,5 @@ variables.
 \item \code{\link[=beta_list]{beta_list()}} Use a list of different beta values.
 }
 
-See corresponding functions for details.
+See \link{make_Ising_grid-control-functions} for details.
 }
