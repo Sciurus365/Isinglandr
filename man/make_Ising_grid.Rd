@@ -8,7 +8,7 @@ make_Ising_grid(par1, par2 = NULL, thresholds, weiadj, beta = 1)
 }
 \arguments{
 \item{par1, par2}{Generated from one of \code{\link[=single_threshold]{single_threshold()}},
-\code{\link[=all_thresholds]{all_thresholds()}}, \code{\link[=single_wei]{single_wei()}}\verb{, [whole_weiadj()], or [beta_list()]. }par2` can be left blank if you only
+\code{\link[=all_thresholds]{all_thresholds()}}, \code{\link[=single_wei]{single_wei()}}\verb{, [whole_weiadj()], or [beta_list()]. Use }par2 = NULL` if you only
 want to vary one parameter.}
 
 \item{thresholds}{The thresholds and the weighted adjacency matrix

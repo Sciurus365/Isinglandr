@@ -19,7 +19,7 @@
 #'
 #' @param par1,par2 Generated from one of [single_threshold()],
 #' [all_thresholds()], [single_wei()]`, [whole_weiadj()],
-#' or [beta_list()]. `par2` can be left blank if you only
+#' or [beta_list()]. Use `par2 = NULL` if you only
 #' want to vary one parameter.
 #' @inheritParams make_2d_Isingland
 #'

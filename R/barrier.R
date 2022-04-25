@@ -21,12 +21,12 @@ NULL
 
 #' @export
 #' @rdname calculate_barrier.Isingland
-calculate_barrier.2d_Isingland <- function(l){
+calculate_barrier.2d_Isingland <- function(l, ...){
 	d <- get_dist(l)
 	minindex <- local_min_index(d$U)
 	maxindex <- local_max_index(d$U)
 
-	for(i in 1:ncol(landscape_shapes)) {
+	for(i in 1:nrow(landscape_shapes)) {
 		if(
 			length(minindex) == landscape_shapes$Nmin[i] &
 			length(maxindex) == landscape_shapes$Nmax[i] &
@@ -51,6 +51,20 @@ calculate_barrier.2d_Isingland <- function(l){
 
 	rlang::abort("The shape of the landscape is not supported for calculating barrier.")
 }
+#' @export
+#' @rdname calculate_barrier.Isingland
+calculate_barrier.2d_Isingland_matrix <- function(l, ...) {
+	d_raw <- l$dist_raw
+	d_raw <- d_raw %>% dplyr::rowwise() %>%
+		dplyr::mutate(barrier = list(calculate_barrier(landscape))) %>%
+		dplyr::ungroup()
+	d <- d_raw %>%
+		dplyr::select(dplyr::all_of(attr(l, "par_name")), barrier)
+	return(structure(
+		d,
+		class = c("barrier_2d_Isingland_matrix" , class(d))
+	))
+}
 
 #' @export
 print.barrier_2d_Isingland <- function(x, ...) {
@@ -63,6 +77,15 @@ print.barrier_2d_Isingland <- function(x, ...) {
 }
 
 #' @export
+print.barrier_2d_Isingland_matrix <- function(x, ...) {
+	x <- x %>%
+		dplyr::rowwise() %>%
+		dplyr::mutate(barrier = print(barrier)) %>%
+		dplyr::ungroup()
+	print(x)
+}
+
+#' @export
 #' @describeIn calculate_barrier.Isingland Return a vector of
 #' barrier heights.
 #' @inheritParams base::summary
@@ -70,3 +93,16 @@ summary.barrier_2d_Isingland <- function(object, ...){
 	c(delta_U_start = object$delta_U_start, delta_U_end = object$delta_U_end)
 }
 
+#' @export
+#' @describeIn calculate_barrier.Isingland Return a tibble of
+#' barrier heights and conditions.
+#' @inheritParams base::summary
+summary.barrier_2d_Isingland_matrix <- function(object, ...){
+	object %>%
+		dplyr::rowwise() %>%
+		dplyr::mutate(shape = barrier$shape,
+									delta_U_start = barrier$delta_U_start,
+									delta_U_end = barrier$delta_U_end) %>%
+		dplyr::ungroup() %>%
+		dplyr::select(-barrier)
+}

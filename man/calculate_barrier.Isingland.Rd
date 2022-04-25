@@ -3,19 +3,25 @@
 \name{calculate_barrier.Isingland}
 \alias{calculate_barrier.Isingland}
 \alias{calculate_barrier.2d_Isingland}
+\alias{calculate_barrier.2d_Isingland_matrix}
 \alias{summary.barrier_2d_Isingland}
+\alias{summary.barrier_2d_Isingland_matrix}
 \title{Calculate energy barrier for Ising landscapes}
 \usage{
-\method{calculate_barrier}{`2d_Isingland`}(l)
+\method{calculate_barrier}{`2d_Isingland`}(l, ...)
+
+\method{calculate_barrier}{`2d_Isingland_matrix`}(l, ...)
 
 \method{summary}{barrier_2d_Isingland}(object, ...)
+
+\method{summary}{barrier_2d_Isingland_matrix}(object, ...)
 }
 \arguments{
 \item{l}{An \code{Isingland} object constructed with \code{\link[=make_2d_Isingland]{make_2d_Isingland()}} or \code{\link[=make_2d_Isingland_matrix]{make_2d_Isingland_matrix()}}.}
 
-\item{object}{an object for which a summary is desired.}
-
 \item{...}{Not in use.}
+
+\item{object}{an object for which a summary is desired.}
 }
 \value{
 A \code{barrier_Isingland} object that contains the following components:
@@ -41,5 +47,8 @@ Calculate energy barrier for Ising landscapes
 \itemize{
 \item \code{summary.barrier_2d_Isingland}: Return a vector of
 barrier heights.
+
+\item \code{summary.barrier_2d_Isingland_matrix}: Return a tibble of
+barrier heights and conditions.
 }}
 

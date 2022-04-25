@@ -6,5 +6,6 @@
 *.temp.R
 *.RData
 *.ai
+*.gif
 
 README_cache/

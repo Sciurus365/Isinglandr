@@ -33,3 +33,5 @@ Imports:
     tibble,
     tidyr,
     utils
+Suggests: 
+    transformr

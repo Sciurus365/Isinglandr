@@ -4,4 +4,6 @@
 ^README\.Rmd$
 ^.*\.temp\.R$
 ^.*\.ai$
+^.*\.gif$
 ^.*\.RData$
+^README\_cache$
