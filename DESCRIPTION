@@ -29,9 +29,13 @@ Imports:
     methods,
     purrr,
     rlang,
+    shiny,
+    shinythemes,
     simlandr,
     tibble,
     tidyr,
     utils
 Suggests: 
     transformr
+Depends: 
+    R (>= 2.10)
