@@ -89,3 +89,10 @@ plot(sim4)
 ```
 
 <img src="man/figures/README-unnamed-chunk-2-2.gif" width="100%" />
+
+## Shiny app
+
+A shiny app is included in this package to show the landscape for the
+Ising network of major depressive disorder. The network parameters can
+be manipulated to see how they influence the landscape and the
+simulation. Run `shiny_Isingland_MDD()` to start it.
