@@ -27,6 +27,7 @@ Imports:
     glue,
     magrittr,
     methods,
+    plotly,
     purrr,
     rlang,
     shiny,

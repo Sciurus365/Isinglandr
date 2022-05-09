@@ -138,3 +138,65 @@ plot.2d_Isingland_matrix <- function(x, ...) {
 
   return(p)
 }
+
+#' Make a 3D landscape for an Ising network
+#'
+#' Similar to [make_2d_Isingland()], but two categories of nodes can
+#' be specified so the number of active nodes can be calculated
+#' separately.
+#'
+#' @inheritParams make_2d_Isingland
+#' @param x,y Two vectors specifying the indices or the names of the
+#' nodes for two categories.
+#'
+#' @seealso [make_2d_Isingland()]
+#'
+#' @export
+make_3d_Isingland <- function(thresholds, weiadj, x, y, beta = 1, transform = FALSE) {
+	l_2d <- make_2d_Isingland(thresholds, weiadj, beta, transform)
+	d <- l_2d$dist_raw
+
+	## summarize based on the number of symptoms in the groups x & y
+	d_sum <- d %>%
+		dplyr::rowwise() %>%
+		dplyr::mutate(sum_state_x = sum(v[x]),
+									sum_state_y = sum(v[y])) %>%
+		dplyr::ungroup() %>%
+		dplyr::group_by(sum_state_x, sum_state_y) %>%
+		dplyr::summarize(sum_freq = sum(freq)) %>%
+		dplyr::mutate(
+			n_active_x = (sum_state_x + length(x)) / 2,
+			n_active_y = (sum_state_y + length(y)) / 2,
+			U = -log(sum_freq) / beta
+		)
+
+	result <- l_2d
+	result$dist <- d_sum
+	class(result) <- c("3d_Isingland", "Isingland", "landscape")
+	return(result)
+}
+
+make_dist_matrix <- function(d, x_name, y_name, z_name) {
+	x <- sort(unique(d[[x_name]]))
+	y <- sort(unique(d[[y_name]]))
+	z <- matrix(nrow = length(x), ncol = length(y))
+	for(i in 1:nrow(d)){
+		z[which(x == as.numeric(d[i, x_name])),
+			which(y == as.numeric(d[i, y_name]))] <-
+			as.numeric(d[i, z_name])
+	}
+	return(list(x = x, y = y, z = z))
+}
+
+#' @export
+plot.3d_Isingland <- function(x, ...) {
+	dm <- make_dist_matrix(x$dist, "sum_state_x", "sum_state_y", "U")
+	p <- plotly::plot_ly(x = dm$x, y = dm$y,
+											 z = dm$z, type = "surface")
+
+	p <- plotly::layout(p, scene = list(xaxis = list(title = "Number of active nodes (x)"),
+																			yaxis = list(title = "Number of active nodes (y)"),
+																			zaxis = list(title = "U"))) %>%
+		plotly::colorbar(title = "U")
+	return(p)
+}
