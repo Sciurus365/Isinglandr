@@ -33,5 +33,5 @@ be specified so the number of active nodes can be calculated
 separately.
 }
 \seealso{
-\code{\link[=make_2d_Isingland]{make_2d_Isingland()}}
+\code{\link[=make_2d_Isingland]{make_2d_Isingland()}} for the algorithm.
 }

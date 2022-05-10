@@ -29,7 +29,31 @@ distribution and the potential values for different states.
 }
 }
 \description{
-The potential value is calculated as the logarithm of the steady-state
-distribution, which is, in turn, calculated from the Hamiltonian of
-the Ising network.
+Calculate the potential value \eqn{U(n)} for each system state, represented by the
+number of active nodes \eqn{n}. The potential value is determined so that the Boltzmann
+distribution is preserved. The Boltzmann distribution is the basis and the
+steady-state distribution of all dynamic methods for Ising models, including
+those used in \code{\link[IsingSampler:IsingSampler]{IsingSampler::IsingSampler()}} and Glauber dynamics. This means
+that if you assume the real-life system has the same steady-state distribution
+as the Boltzmann distribution of the Ising model, then possibility that their
+are \eqn{n} active nodes in the system is proportional to \eqn{e^{U(n)}}.
+Because of this property of \eqn{e^{U(n)}}, it is aligned with the potential
+landscape definition by Wang et al. (2008) and can quantitatively represent
+the stability of different system states.
+}
+\details{
+The potential function \eqn{U(n)} is calculated by the following equation:
+\deqn{U(n) = -\log(\sum_{v}^{a(v)=n} e^{-\beta H(v)})/\beta,}
+where \eqn{v} represent a specific activation state of the network,
+\eqn{a(v)} is the number of active nodes for \eqn{v}, and \eqn{H} is the
+Hamiltonian function for Ising networks.
+}
+\references{
+Wang, J., Xu, L., & Wang, E. (2008). Potential landscape and flux framework of nonequilibrium networks: Robustness, dissipation, and coherence of biochemical oscillations. Proceedings of the National Academy of Sciences, 105(34), 12271-12276. https://doi.org/10.1073/pnas.0800579105
+Sacha Epskamp (2020). IsingSampler: Sampling methods and distribution functions for the Ising model. R package version 0.2.1. https://CRAN.R-project.org/package=IsingSampler
+Glauber, R. J. (1963). Time-dependent statistics of the Ising model. Journal of Mathematical Physics, 4(2), 294-307. https://doi.org/10.1063/1.1703954
+}
+\seealso{
+\code{\link[=make_3d_Isingland]{make_3d_Isingland()}} if you have two groups of nodes that you want
+to count the number of active ones separately.
 }

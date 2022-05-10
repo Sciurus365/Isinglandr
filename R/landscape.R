@@ -1,8 +1,22 @@
 #' Make a 2D landscape for an Ising network
 #'
-#' The potential value is calculated as the logarithm of the steady-state
-#' distribution, which is, in turn, calculated from the Hamiltonian of
-#' the Ising network.
+#' Calculate the potential value \eqn{U(n)} for each system state, represented by the
+#' number of active nodes \eqn{n}. The potential value is determined so that the Boltzmann
+#' distribution is preserved. The Boltzmann distribution is the basis and the
+#' steady-state distribution of all dynamic methods for Ising models, including
+#' those used in [IsingSampler::IsingSampler()] and Glauber dynamics. This means
+#' that if you assume the real-life system has the same steady-state distribution
+#' as the Boltzmann distribution of the Ising model, then possibility that their
+#' are \eqn{n} active nodes in the system is proportional to \eqn{e^{U(n)}}.
+#' Because of this property of \eqn{e^{U(n)}}, it is aligned with the potential
+#' landscape definition by Wang et al. (2008) and can quantitatively represent
+#' the stability of different system states.
+#'
+#' The potential function \eqn{U(n)} is calculated by the following equation:
+#' \deqn{U(n) = -\log(\sum_{v}^{a(v)=n} e^{-\beta H(v)})/\beta,}
+#' where \eqn{v} represent a specific activation state of the network,
+#' \eqn{a(v)} is the number of active nodes for \eqn{v}, and \eqn{H} is the
+#' Hamiltonian function for Ising networks.
 #'
 #' @param thresholds,weiadj The thresholds and the weighted adjacency matrix
 #' of the Ising network. If you have an `IsingFit` object estimated using
@@ -21,6 +35,13 @@
 #'   \item `thresholds`,`weiadj`,`beta` The parameters supplied to the function.
 #'   \item `Nvar` The number of variables (nodes) in the Ising network.
 #' }
+#' @seealso
+#' [make_3d_Isingland()] if you have two groups of nodes that you want
+#' to count the number of active ones separately.
+#' @references
+#' Wang, J., Xu, L., & Wang, E. (2008). Potential landscape and flux framework of nonequilibrium networks: Robustness, dissipation, and coherence of biochemical oscillations. Proceedings of the National Academy of Sciences, 105(34), 12271-12276. https://doi.org/10.1073/pnas.0800579105
+#' Sacha Epskamp (2020). IsingSampler: Sampling methods and distribution functions for the Ising model. R package version 0.2.1. https://CRAN.R-project.org/package=IsingSampler
+#' Glauber, R. J. (1963). Time-dependent statistics of the Ising model. Journal of Mathematical Physics, 4(2), 294-307. https://doi.org/10.1063/1.1703954
 #' @export
 make_2d_Isingland <- function(thresholds, weiadj, beta = 1, transform = FALSE) {
   Nvar <- length(thresholds)
@@ -149,54 +170,62 @@ plot.2d_Isingland_matrix <- function(x, ...) {
 #' @param x,y Two vectors specifying the indices or the names of the
 #' nodes for two categories.
 #'
-#' @seealso [make_2d_Isingland()]
+#' @seealso [make_2d_Isingland()] for the algorithm.
 #'
 #' @export
 make_3d_Isingland <- function(thresholds, weiadj, x, y, beta = 1, transform = FALSE) {
-	l_2d <- make_2d_Isingland(thresholds, weiadj, beta, transform)
-	d <- l_2d$dist_raw
+  l_2d <- make_2d_Isingland(thresholds, weiadj, beta, transform)
+  d <- l_2d$dist_raw
 
-	## summarize based on the number of symptoms in the groups x & y
-	d_sum <- d %>%
-		dplyr::rowwise() %>%
-		dplyr::mutate(sum_state_x = sum(v[x]),
-									sum_state_y = sum(v[y])) %>%
-		dplyr::ungroup() %>%
-		dplyr::group_by(sum_state_x, sum_state_y) %>%
-		dplyr::summarize(sum_freq = sum(freq)) %>%
-		dplyr::mutate(
-			n_active_x = (sum_state_x + length(x)) / 2,
-			n_active_y = (sum_state_y + length(y)) / 2,
-			U = -log(sum_freq) / beta
-		)
+  ## summarize based on the number of symptoms in the groups x & y
+  d_sum <- d %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(
+      sum_state_x = sum(v[x]),
+      sum_state_y = sum(v[y])
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by(sum_state_x, sum_state_y) %>%
+    dplyr::summarize(sum_freq = sum(freq)) %>%
+    dplyr::mutate(
+      n_active_x = (sum_state_x + length(x)) / 2,
+      n_active_y = (sum_state_y + length(y)) / 2,
+      U = -log(sum_freq) / beta
+    )
 
-	result <- l_2d
-	result$dist <- d_sum
-	class(result) <- c("3d_Isingland", "Isingland", "landscape")
-	return(result)
+  result <- l_2d
+  result$dist <- d_sum
+  class(result) <- c("3d_Isingland", "Isingland", "landscape")
+  return(result)
 }
 
 make_dist_matrix <- function(d, x_name, y_name, z_name) {
-	x <- sort(unique(d[[x_name]]))
-	y <- sort(unique(d[[y_name]]))
-	z <- matrix(nrow = length(x), ncol = length(y))
-	for(i in 1:nrow(d)){
-		z[which(x == as.numeric(d[i, x_name])),
-			which(y == as.numeric(d[i, y_name]))] <-
-			as.numeric(d[i, z_name])
-	}
-	return(list(x = x, y = y, z = z))
+  x <- sort(unique(d[[x_name]]))
+  y <- sort(unique(d[[y_name]]))
+  z <- matrix(nrow = length(x), ncol = length(y))
+  for (i in 1:nrow(d)) {
+    z[
+      which(x == as.numeric(d[i, x_name])),
+      which(y == as.numeric(d[i, y_name]))
+    ] <-
+      as.numeric(d[i, z_name])
+  }
+  return(list(x = x, y = y, z = z))
 }
 
 #' @export
 plot.3d_Isingland <- function(x, ...) {
-	dm <- make_dist_matrix(x$dist, "sum_state_x", "sum_state_y", "U")
-	p <- plotly::plot_ly(x = dm$x, y = dm$y,
-											 z = dm$z, type = "surface")
+  dm <- make_dist_matrix(x$dist, "sum_state_x", "sum_state_y", "U")
+  p <- plotly::plot_ly(
+    x = dm$x, y = dm$y,
+    z = dm$z, type = "surface"
+  )
 
-	p <- plotly::layout(p, scene = list(xaxis = list(title = "Number of active nodes (x)"),
-																			yaxis = list(title = "Number of active nodes (y)"),
-																			zaxis = list(title = "U"))) %>%
-		plotly::colorbar(title = "U")
-	return(p)
+  p <- plotly::layout(p, scene = list(
+    xaxis = list(title = "Number of active nodes (x)"),
+    yaxis = list(title = "Number of active nodes (y)"),
+    zaxis = list(title = "U")
+  )) %>%
+    plotly::colorbar(title = "U")
+  return(p)
 }

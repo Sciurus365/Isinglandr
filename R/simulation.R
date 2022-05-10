@@ -10,16 +10,24 @@ U <- function(l, x) {
   return(as.numeric(get_dist(l)[x + 1, "U"]))
 }
 
-#' Simulate an 2D Ising landscape
+#' Simulate a 2D Ising landscape
 #'
-#' Perform a numeric simulation using a landscape. The simulation is
-#' based on the Glauber dynamics, which means the transition possibility
-#' is determined by the difference in energy.
+#' Perform a numeric simulation using the landscape. The simulation is performed
+#' using a similar algorithm as Glauber dynamics, that the transition possibility
+#' is determined by the difference in the potential function, and the steady-state
+#' distribution is the same as the Boltzmann distribution (if not setting `beta2`).
 #' Note that, the conditional transition possibility of this simulation
-#' is different from that using the original Ising model. However, the
-#' steady-state distribution is preserved.
-#' You can choose to simulate the state of a single system
-#' stochastically or simulate the distribution of the states.
+#' may be different from Glauber dynamics or other simulation methods.
+#'
+#' In each simulation step, the system can have one more active node, one
+#' less active node, or the same number of active nodes (if possible; so if all
+#' nodes are already active then it is not possible to have one more active node).
+#' The possibility of the three cases is determined by their potential function:
+#'
+#' \deqn{P(n_{t}=b|n_{t-1}=a) = \frac{e^{-\beta U(b)}}{\sum_{i \in \{a-1,a,a+1\},0\leq i\leq N}e^{-\beta U(i)}}, \ \mathrm{if} \ b\in\{a-1,a,a+1\}\ \&\ 0\leq i\leq N; 0, \mathrm{otherwise},}
+#'
+#' where \eqn{n_{t}} is the number of active nodes at the time \eqn{t}, and
+#' \eqn{U(n)} is the potential function.
 #'
 #' @param l An `Isingland` object constructed with [make_2d_Isingland()] or [make_2d_Isingland_matrix()].
 #' @param mode One of `"single"`, `"distribution"`. Do you want to simulate

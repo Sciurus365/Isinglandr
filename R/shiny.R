@@ -45,12 +45,12 @@ shiny_ui <- function() {
     shiny::navbarPage(
       "Landscape for MDD Ising network",
       shiny::tabPanel(
-        "Landscape",
+        "Landscape & Simulation",
         shiny::sidebarLayout(
           shiny::sidebarPanel(
-            shiny::h2("Network"),
+            shiny::h2("Network parameters"),
             shiny::sliderInput("coef_t",
-              label = "Coefficient for threshouds",
+              label = "Coefficient for thresholds",
               min = 0.1, max = 2.0, step = 0.1, value = 1
             ),
             shiny::sliderInput("coef_c",
@@ -61,7 +61,7 @@ shiny_ui <- function() {
               label = "Beta",
               min = 0.1, max = 3.0, step = 0.1, value = 1.5
             ),
-            shiny::h2("Simulation"),
+            shiny::h2("Simulation settings"),
             shiny::selectInput("mode",
               label = "Simulation mode", choices = c("single", "distribution"),
               selected = "single"

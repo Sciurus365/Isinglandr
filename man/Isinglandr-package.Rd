@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-A toolbox for constructing potential landscapes for Ising networks, which can be estimated by the `Isingfit` package <https://CRAN.R-project.org/package=IsingFit>. The landscapes preserve the steady-state distribution of the original model with Glauber dynamics (Glauber, 1963) <doi:10.1063/1.1703954> and can be used for visualizing and quantifying the stability of different activation states and visualizing the simulation process.
+A toolbox for constructing potential landscapes for Ising networks. The parameters of the networks can be directly supplied by users or estimated by the `IsingFit` package <https://CRAN.R-project.org/package=IsingFit> from empirical data. The Ising models' Boltzmann distribution is preserved for the potential landscape function. The landscape functions can be used for quantifying and visualizing the stability of network states, as well as visualizing the simulation process.
 }
 \author{
 \strong{Maintainer}: Jingmeng Cui \email{jingmeng.cui@outlook.com} (\href{https://orcid.org/0000-0003-3421-8457}{ORCID})
