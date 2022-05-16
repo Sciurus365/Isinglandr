@@ -1,12 +1,21 @@
-local_min_index <- function(v) {
-  bounded_v <- c(Inf, v, Inf)
+local_min_index <- function(v, include_margin = TRUE) {
+  if (include_margin) {
+    bounded_v <- c(Inf, v, Inf) # so that if the margin is also returned if it is only the minimum from one side
+  } else {
+    bounded_v <- c(-Inf, v, -Inf)
+  }
+
   diff1 <- diff(bounded_v)[-1]
   diff2 <- rev(diff(rev(bounded_v))[-1])
   return(which(diff1 >= 0 & diff2 >= 0))
 }
 
-local_max_index <- function(v) {
-  bounded_v <- c(-Inf, v, -Inf)
+local_max_index <- function(v, include_margin = TRUE) {
+  if (include_margin) {
+    bounded_v <- c(-Inf, v, -Inf) # so that if the margin is also returned if it is only the maximum from one side
+  } else {
+    bounded_v <- c(Inf, v, Inf)
+  }
   diff1 <- diff(bounded_v)[-1]
   diff2 <- rev(diff(rev(bounded_v))[-1])
   return(which(diff1 <= 0 & diff2 <= 0))

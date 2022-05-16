@@ -68,20 +68,28 @@ calculate_barrier.2d_Isingland_matrix <- function(l, ...) {
 }
 
 #' @export
-print.barrier_2d_Isingland <- function(x, ...) {
-  glue::glue(
-    "A landscape with shape {x$shape}
+#' @rdname calculate_barrier.Isingland
+#' @param simplify Print a simplified version of the output? Default is `FALSE`.
+print.barrier_2d_Isingland <- function(x, simplify = FALSE, ...) {
+  if (simplify) {
+    print(glue::glue(
+      "{x$shape} landscape; delta_U_start = {format(x$delta_U_start, digits = 2)}; delta_U_end = {format(x$delta_U_end, digits = 2)}"
+    ))
+  } else {
+    print(glue::glue(
+      "A landscape with shape {x$shape}
 		delta_U_start = {format(x$delta_U_start, digits = 2)}
 		delta_U_end = {format(x$delta_U_end, digits = 2)}
 		"
-  )
+    ))
+  }
 }
 
 #' @export
 print.barrier_2d_Isingland_matrix <- function(x, ...) {
   x <- x %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(barrier = print(barrier)) %>%
+    dplyr::mutate(barrier = purrr::quietly(print)(barrier, simplify = TRUE)$result) %>%
     dplyr::ungroup()
   print(x)
 }

@@ -4,6 +4,7 @@
 \alias{calculate_barrier.Isingland}
 \alias{calculate_barrier.2d_Isingland}
 \alias{calculate_barrier.2d_Isingland_matrix}
+\alias{print.barrier_2d_Isingland}
 \alias{summary.barrier_2d_Isingland}
 \alias{summary.barrier_2d_Isingland_matrix}
 \title{Calculate energy barrier for Ising landscapes}
@@ -11,6 +12,8 @@
 \method{calculate_barrier}{`2d_Isingland`}(l, ...)
 
 \method{calculate_barrier}{`2d_Isingland_matrix`}(l, ...)
+
+\method{print}{barrier_2d_Isingland}(x, simplify = FALSE, ...)
 
 \method{summary}{barrier_2d_Isingland}(object, ...)
 
@@ -20,6 +23,10 @@
 \item{l}{An \code{Isingland} object constructed with \code{\link[=make_2d_Isingland]{make_2d_Isingland()}} or \code{\link[=make_2d_Isingland_matrix]{make_2d_Isingland_matrix()}}.}
 
 \item{...}{Not in use.}
+
+\item{x}{a result of the \emph{default} method of \code{summary()}.}
+
+\item{simplify}{Print a simplified version of the output? Default is \code{FALSE}.}
 
 \item{object}{an object for which a summary is desired.}
 }
