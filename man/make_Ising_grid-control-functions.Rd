@@ -10,9 +10,9 @@
 \title{Control Functions to Specify the Varying Parameters for
 an Ising Grid.}
 \usage{
-single_threshold(pos, seq)
+single_threshold(pos, seq, .f = `*`)
 
-single_wei(pos, seq)
+single_wei(pos, seq, .f = `*`)
 
 all_thresholds(seq, .f = `*`)
 
@@ -30,10 +30,9 @@ length 2 for \code{\link[=single_wei]{single_wei()}}.}
 with \code{\link[base:seq]{base::seq()}}.}
 
 \item{.f}{What calculation should be done for \code{seq}
-and the original threshold values or the original weighted
-adjacency matrix? \code{*} by default, which means the values supplied
-in \code{seq} will be multiplied to the original vector or matrix. Only for
-\code{\link[=all_thresholds]{all_thresholds()}} and \code{\link[=whole_weiadj]{whole_weiadj()}}.}
+and the original threshold value(s) or the original weight(ed
+adjacency matrix)? \code{*} by default, which means the values supplied
+in \code{seq} will be multiplied to the original value, vector, or matrix.}
 }
 \description{
 Control Functions to Specify the Varying Parameters for

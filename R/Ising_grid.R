@@ -65,7 +65,7 @@ make_Ising_condition_list <- function(par, thresholds, weiadj, beta) {
         !!rlang::sym(par_name),
         function(x, thresholds) {
           temp <- thresholds
-          temp[par$pos] <- x
+          temp[par$pos] <- par$.f(x, temp[par$pos])
           return(temp)
         },
         thresholds
@@ -87,8 +87,8 @@ make_Ising_condition_list <- function(par, thresholds, weiadj, beta) {
         !!rlang::sym(par_name),
         function(x, weiadj) {
           temp <- weiadj
-          temp[par$pos[1], par$pos[2]] <- x
-          temp[par$pos[2], par$pos[1]] <- x # to ensure symmetricity
+          temp[par$pos[1], par$pos[2]] <- par$.f(x, temp[par$pos[1], par$pos[2]])
+          temp[par$pos[2], par$pos[1]] <- par$.f(x, temp[par$pos[2], par$pos[1]]) # to ensure symmetricity
           return(temp)
         },
         weiadj
@@ -113,11 +113,11 @@ make_Ising_condition_list <- function(par, thresholds, weiadj, beta) {
 }
 
 generator_control_pos_seq <- function(type) {
-  function(pos, seq) {
+  function(pos, seq, .f = `*`) {
     if (!methods::is(pos, "numeric")) {
       abort_bad_argument("pos", "be a numeric object", class(pos))
     }
-    return(structure(list(pos = pos, seq = seq), class = c(paste0("ctrl_", type), "ctrl_pos_seq", "ctrl")))
+    return(structure(list(pos = pos, seq = seq, .f = .f), class = c(paste0("ctrl_", type), "ctrl_pos_seq", "ctrl")))
   }
 }
 
@@ -139,10 +139,9 @@ generator_control_seq <- function(type) {
 #' with [base::seq()].
 #'
 #' @param .f What calculation should be done for `seq`
-#' and the original threshold values or the original weighted
-#' adjacency matrix? `*` by default, which means the values supplied
-#' in `seq` will be multiplied to the original vector or matrix. Only for
-#' [all_thresholds()] and [whole_weiadj()].
+#' and the original threshold value(s) or the original weight(ed
+#' adjacency matrix)? `*` by default, which means the values supplied
+#' in `seq` will be multiplied to the original value, vector, or matrix.
 #' @name make_Ising_grid-control-functions
 NULL
 

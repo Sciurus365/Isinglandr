@@ -96,6 +96,7 @@ make_2d_Isingland <- function(thresholds, weiadj, beta = 1, transform = FALSE) {
 #' \itemize{
 #'   \item `dist_raw`,`dist` Two tibbles containing the probability
 #'   distribution and the potential values for different states.
+#'   \item `Nvar` The number of variables (nodes) in the Ising network.
 #' }
 #'
 #' @export
@@ -120,7 +121,8 @@ make_2d_Isingland_matrix <- function(Ising_grid, transform = FALSE) {
   return(structure(
     list(
       dist_raw = dist_raw,
-      dist = dist_tidy
+      dist = dist_tidy,
+      Nvar = dist_raw$landscape[[1]]$Nvar
     ),
     class = c("2d_Isingland_matrix", "Isingland", "landscape"),
     par_name = attr(Ising_grid, "par_name")

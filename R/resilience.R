@@ -4,15 +4,28 @@
 #'
 #' @inheritParams simulate_Isingland
 #'
+#' @return
+#' \describe{
+#' \item{[calculate_resilience.2d_Isingland()]}{Returns a `calculate_resilience.2d_Isingland` project, which contains the following elements:
+#' \describe{
+#' \item{dist}{The distribution tibble which is the same as in the input `l`.}
+#' \item{effective_minindex1,effective_maxindex1,effective_minindex2,effective_maxindex2}{The (row)indices in `dist` that were used as the positions of the local minimums and maximums in two parts.}
+#' \item{resilience1,resilience2,resilience_diff}{The resilience measures for the first (left) part, the second part (right), and their difference.}
+#' }
+#' }
+#' \item{[calculate_resilience.2d_Isingland_matrix()]}{Returns a `resilience_2d_Isingland_matrix` object, which is a tibble containing columns of the varying parameters and a column `resilience` of the `calculate_resilience.2d_Isingland` objects for each landscape.}
+#' }
+#'
+#' When `print()`ed, a verbal description of the resilience metrics is shown. Use the `summary()` method for a tidy version of the outputs.
 #' @export
 calculate_resilience <- function(l, ...) {
   UseMethod("calculate_resilience", l)
 }
 
-#' @param split_value An integer to specify the number of active nodes used to split two resilience ranges.
+#' @param split_value An integer to specify the number of active nodes used to split two resilience ranges. Default is half of the number of nodes.
 #' @export
 #' @rdname calculate_resilience
-calculate_resilience.2d_Isingland <- function(l, split_value) {
+calculate_resilience.2d_Isingland <- function(l, split_value = 0.5*l$Nvar, ...) {
   d <- get_dist(l)
 
   # split the data into two parts
@@ -65,7 +78,7 @@ calculate_resilience.2d_Isingland <- function(l, split_value) {
 
 #' @export
 #' @rdname calculate_resilience
-calculate_resilience.2d_Isingland_matrix <- function(l, split_value, ...) {
+calculate_resilience.2d_Isingland_matrix <- function(l, split_value = 0.5*l$Nvar, ...) {
   d_raw <- l$dist_raw
   d_raw <- d_raw %>%
     dplyr::rowwise() %>%
@@ -80,7 +93,6 @@ calculate_resilience.2d_Isingland_matrix <- function(l, split_value, ...) {
 }
 
 #' @export
-#' @rdname calculate_resilience
 #' @inheritParams print.barrier_2d_Isingland
 print.resilience_2d_Isingland <- function(x, simplify = FALSE, ...) {
   if (simplify) {
@@ -101,7 +113,6 @@ print.resilience_2d_Isingland <- function(x, simplify = FALSE, ...) {
 }
 
 #' @export
-#' @rdname calculate_resilience
 print.resilience_2d_Isingland_matrix <- function(x, ...) {
   x <- x %>%
     dplyr::rowwise() %>%
@@ -112,11 +123,23 @@ print.resilience_2d_Isingland_matrix <- function(x, ...) {
 
 
 #' @export
-#' @rdname calculate_resilience
 #' @inheritParams base::summary
 summary.resilience_2d_Isingland <- function(object, ...) {
   c(
     resilience1 = object$resilience1, resilience2 = object$resilience2,
     resilience_diff = object$resilience_diff
   )
+}
+
+#' @export
+#' @inheritParams base::summary
+summary.resilience_2d_Isingland_matrix <- function(object, ...) {
+	object %>%
+		dplyr::rowwise() %>%
+		dplyr::mutate(resilience_measures = list(summary(resilience)),
+									resilience1 = resilience_measures["resilience1"],
+									resilience2 = resilience_measures["resilience2"],
+									resilience_diff = resilience_measures["resilience_diff"]) %>%
+		dplyr::ungroup() %>%
+		dplyr::select(-resilience, -resilience_measures)
 }

@@ -9,7 +9,7 @@ shiny_server <- function(input, output, session) {
   })
 
   # produce the simulation animation
-  make_s <- eventReactive(input$start_sim, {
+  make_s <- shiny::eventReactive(input$start_sim, {
     original_network <- make_2d_Isingland(input$coef_t * MDDThresholds,
       input$coef_c * MDDConnectivity,
       beta = input$beta,
@@ -17,7 +17,7 @@ shiny_server <- function(input, output, session) {
     )
     s <- simulate_Isingland(
       l = original_network, mode = input$mode, beta2 = input$beta2,
-      length = input$length
+      length = input$length, initial = input$initial
     )
     outfile <- tempfile(fileext = ".gif")
     gganimate::anim_save(outfile, gganimate::animate(plot(s), fps = input$fps))
@@ -93,9 +93,9 @@ shiny_ui <- function() {
       ),
       shiny::tabPanel(
         "About",
-        p("This Shiny app is a part of the", strong("Isinglandr"), "package."),
-        p(
-          "See the", a("Github repo", href = "https://github.com/Sciurus365/Isinglandr"),
+        shiny::p("This Shiny app is a part of the", shiny::strong("Isinglandr"), "package."),
+        shiny::p(
+          "See the", shiny::a("Github repo", href = "https://github.com/Sciurus365/Isinglandr"),
           "for more information."
         )
       )

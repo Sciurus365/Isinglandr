@@ -20,6 +20,7 @@ components:
 \itemize{
 \item \code{dist_raw},\code{dist} Two tibbles containing the probability
 distribution and the potential values for different states.
+\item \code{Nvar} The number of variables (nodes) in the Ising network.
 }
 }
 \description{
