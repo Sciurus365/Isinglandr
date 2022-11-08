@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `Isinglandr`: Landscape Construction and Simulation for Ising Networks <img src='man/figures/logo.png' style=float:right height=138 />
+# `Isinglandr`: Landscape Construction and Simulation for Ising Networks <img src='man/figures/logo.png' align="right" height="138" />
 
 <!-- badges: start -->
 
