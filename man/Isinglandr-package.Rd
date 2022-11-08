@@ -6,16 +6,16 @@
 \alias{Isinglandr-package}
 \title{Isinglandr: Landscape Construction and Simulation for Ising Networks}
 \description{
-\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-A toolbox for constructing potential landscapes for Ising networks. The parameters of the networks can be directly supplied by users or estimated by the `IsingFit` package <https://CRAN.R-project.org/package=IsingFit> from empirical data. The Ising models' Boltzmann distribution is preserved for the potential landscape function. The landscape functions can be used for quantifying and visualizing the stability of network states, as well as visualizing the simulation process.
+A toolbox for constructing potential landscapes for Ising networks. The parameters of the networks can be directly supplied by users or estimated by the `IsingFit` package \url{https://CRAN.R-project.org/package=IsingFit} from empirical data. The Ising models' Boltzmann distribution is preserved for the potential landscape function. The landscape functions can be used for quantifying and visualizing the stability of network states, as well as visualizing the simulation process.
 }
 \author{
 \strong{Maintainer}: Jingmeng Cui \email{jingmeng.cui@outlook.com} (\href{https://orcid.org/0000-0003-3421-8457}{ORCID})
 
 Other contributors:
 \itemize{
-  \item Gabriela Lunansky [contributor]
+  \item Gabriela Lunansky (\href{https://orcid.org/0000-0001-6226-2258}{ORCID}) [contributor]
 }
 
 }

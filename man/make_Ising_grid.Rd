@@ -11,12 +11,7 @@ make_Ising_grid(par1, par2 = NULL, thresholds, weiadj, beta = 1)
 \code{\link[=all_thresholds]{all_thresholds()}}, \code{\link[=single_wei]{single_wei()}}\verb{, [whole_weiadj()], or [beta_list()]. Use }par2 = NULL` if you only
 want to vary one parameter.}
 
-\item{thresholds}{The thresholds and the weighted adjacency matrix
-of the Ising network. If you have an \code{IsingFit} object estimated using
-\code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}, you can find those two parameters in its components
-(\verb{<IsingFit>$thresholds} and \verb{<IsingFit>$weiadj}).}
-
-\item{weiadj}{The thresholds and the weighted adjacency matrix
+\item{thresholds, weiadj}{The thresholds and the weighted adjacency matrix
 of the Ising network. If you have an \code{IsingFit} object estimated using
 \code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}, you can find those two parameters in its components
 (\verb{<IsingFit>$thresholds} and \verb{<IsingFit>$weiadj}).}

@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `Isinglandr`: Landscape Construction and Simulation for Ising Networks <img src='man/figures/logo.png' align="right" height="138" />
+# `Isinglandr`: Landscape Construction and Simulation for Ising Networks <img src='man/figures/logo.png' style=float:right height=138 />
 
 <!-- badges: start -->
 
@@ -33,6 +33,9 @@ devtools::install_github("Sciurus365/Isinglandr")
 
 ``` r
 library(Isinglandr)
+#> Registered S3 method overwritten by 'Isinglandr':
+#>   method          from    
+#>   print.landscape simlandr
 #  A toy network and its landscape
 Nvar <- 10
 m <- rep(0, Nvar)
@@ -46,6 +49,7 @@ plot(result1)
 <img src="man/figures/README-example-1.png" width="100%" />
 
 ``` r
+
 ## What if the network becomes denser?
 result2 <- make_2d_Isingland(m, 1.5 * w)
 plot(result2)
@@ -54,6 +58,7 @@ plot(result2)
 <img src="man/figures/README-example-2.png" width="100%" />
 
 ``` r
+
 ## What if the thresholds become lower?
 result3 <- make_2d_Isingland(m - 0.5, w)
 plot(result3)
@@ -62,6 +67,7 @@ plot(result3)
 <img src="man/figures/README-example-3.png" width="100%" />
 
 ``` r
+
 ## Multiple networks together
 result4 <- make_Ising_grid(
   all_thresholds(seq(-0.1, 0.1, 0.1), .f = `+`),
@@ -84,6 +90,7 @@ plot(sim1)
 <img src="man/figures/README-unnamed-chunk-2-1.gif" width="100%" />
 
 ``` r
+
 set.seed(1614)
 sim4 <- simulate_Isingland(result4, initial = 5)
 plot(sim4)

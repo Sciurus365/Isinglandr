@@ -7,12 +7,7 @@
 make_3d_Isingland(thresholds, weiadj, x, y, beta = 1, transform = FALSE)
 }
 \arguments{
-\item{thresholds}{The thresholds and the weighted adjacency matrix
-of the Ising network. If you have an \code{IsingFit} object estimated using
-\code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}, you can find those two parameters in its components
-(\verb{<IsingFit>$thresholds} and \verb{<IsingFit>$weiadj}).}
-
-\item{weiadj}{The thresholds and the weighted adjacency matrix
+\item{thresholds, weiadj}{The thresholds and the weighted adjacency matrix
 of the Ising network. If you have an \code{IsingFit} object estimated using
 \code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}, you can find those two parameters in its components
 (\verb{<IsingFit>$thresholds} and \verb{<IsingFit>$weiadj}).}

@@ -29,6 +29,6 @@ represented in a weighted adjacency matrix.
 
 \item \code{MDDThresholds}: The thresholds of the network nodes,
 represented in a vector.
-}}
 
+}}
 \keyword{datasets}

@@ -52,10 +52,10 @@ Calculate energy barrier for Ising landscapes
 }
 \section{Functions}{
 \itemize{
-\item \code{summary.barrier_2d_Isingland}: Return a vector of
+\item \code{summary(barrier_2d_Isingland)}: Return a vector of
 barrier heights.
 
-\item \code{summary.barrier_2d_Isingland_matrix}: Return a tibble of
+\item \code{summary(barrier_2d_Isingland_matrix)}: Return a tibble of
 barrier heights and conditions.
-}}
 
+}}
