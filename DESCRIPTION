@@ -1,18 +1,24 @@
-Package: Isinglandr
 Type: Package
+Package: Isinglandr
 Title: Landscape Construction and Simulation for Ising Networks
 Version: 0.0.0.9000
-Authors@R: c(person(given = "Jingmeng", family = "Cui", 
-		email = "jingmeng.cui@outlook.com",
-		role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3421-8457")),
-		person(given = "Gabriela", family = "Lunansky",
-		role = "ctb", comment = c(ORCID = "0000-0001-6226-2258")))
-Description: A toolbox for constructing potential landscapes for Ising networks. The parameters of the networks can be directly supplied by users or estimated by the `IsingFit` package <https://CRAN.R-project.org/package=IsingFit> from empirical data. The Ising models' Boltzmann distribution is preserved for the potential landscape function. The landscape functions can be used for quantifying and visualizing the stability of network states, as well as visualizing the simulation process.
+Authors@R: c(
+    person("Jingmeng", "Cui", , "jingmeng.cui@outlook.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-3421-8457")),
+    person("Gabriela", "Lunansky", role = "ctb",
+           comment = c(ORCID = "0000-0001-6226-2258"))
+  )
+Description: A toolbox for constructing potential landscapes for Ising
+    networks. The parameters of the networks can be directly supplied by
+    users or estimated by the `IsingFit` package
+    <https://CRAN.R-project.org/package=IsingFit> from empirical data. The
+    Ising models' Boltzmann distribution is preserved for the potential
+    landscape function. The landscape functions can be used for
+    quantifying and visualizing the stability of network states, as well
+    as visualizing the simulation process.
 License: GPL (>= 3)
-Encoding: UTF-8
-LazyData: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+Depends: 
+    R (>= 2.10)
 Imports: 
     dplyr,
     gganimate,
@@ -31,5 +37,7 @@ Imports:
     tidyr
 Suggests: 
     transformr
-Depends: 
-    R (>= 2.10)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1

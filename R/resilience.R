@@ -63,6 +63,7 @@ calculate_resilience.2d_Isingland <- function(l, split_value = 0.5*l$Nvar, ...) 
     structure(
       list(
         dist = d,
+        split_value = split_value,
         effective_minindex1 = effective_minindex1,
         effective_maxindex1 = effective_maxindex1,
         effective_minindex2 = effective_minindex2,
@@ -75,6 +76,91 @@ calculate_resilience.2d_Isingland <- function(l, split_value = 0.5*l$Nvar, ...) 
     )
   )
 }
+
+
+#' Get ggplot2 layers of resilience metrics to add to the landscape plots
+#'
+#' Those layers can show how the resilience metrics are calculated on the landscape.
+#'
+#' @param object A `resilience` object calculated by [calculate_resilience()]
+#' @param point,line,split_value,interval,resilience_value Show those elements on the layer? Default is `TRUE` for all of them.
+#' @param ... Not in use.
+#'
+#' @export
+#' @rdname autolayer.resilience
+autolayer.resilience_2d_Isingland <- function(object, point = TRUE, line = TRUE, split_value = TRUE, interval = TRUE, resilience_value = TRUE, ...) {
+  result <- list()
+  if (point) {
+    result <- append(
+      result,
+      ggplot2::geom_point(data = with(object, dist[c(effective_minindex1, effective_maxindex1), ]), ggplot2::aes(x = n_active, y = U), size = 2, color = "red")
+    )
+    result <- append(
+    	result,
+    	ggplot2::geom_point(data = with(object, dist[c(effective_minindex2, effective_maxindex2), ]), ggplot2::aes(x = n_active, y = U), size = 2, color = "blue")
+    )
+  }
+  if (line) {
+    result <- append(
+      result,
+      ggplot2::geom_path(data = tibble::tibble(
+        x = with(object, dist[c(effective_minindex1:effective_maxindex1), "n_active"]) %>% unlist(),
+        y = with(object, dist[c(effective_minindex1:effective_maxindex1), "U"]) %>% unlist()
+      ), ggplot2::aes(x = x, y = y), size = 2, alpha = 0.3, color = "red")
+    )
+
+    result <- append(
+      result,
+      ggplot2::geom_path(data = tibble::tibble(
+        x = with(object, dist[c(effective_maxindex2:effective_minindex2), "n_active"]) %>% unlist(),
+        y = with(object, dist[c(effective_maxindex2:effective_minindex2), "U"]) %>% unlist()
+      ), ggplot2::aes(x = x, y = y), size = 2, alpha = 0.3, color = "blue")
+    )
+  }
+  if (split_value) {
+    result <- append(
+      result,
+      ggplot2::geom_vline(xintercept = object$split_value, linetype = 2)
+    )
+  }
+  if (interval) {
+  	result <- append(
+  		result,
+  		ggplot2::geom_errorbar(data = tibble::tribble(
+				~x, ~ymin, ~ymax,
+				unlist(with(object, dist[effective_minindex1, "n_active"])), unlist(with(object, dist[effective_minindex1, "U"])), unlist(with(object, dist[effective_maxindex1, "U"]))
+  		), ggplot2::aes(x = x, y = NULL, ymin = ymin, ymax = ymax), color = "red", width = 0.2)
+  	)
+  	result <- append(
+  		result,
+  		ggplot2::geom_errorbar(data = tibble::tribble(
+  			~x, ~ymin, ~ymax,
+  			unlist(with(object, dist[effective_minindex2, "n_active"])), unlist(with(object, dist[effective_minindex2, "U"])), unlist(with(object, dist[effective_maxindex2, "U"]))
+  		), ggplot2::aes(x = x, y = NULL, ymin = ymin, ymax = ymax), color = "blue", width = 0.2)
+  	)
+  }
+
+  if(resilience_value) {
+  	result <- append(
+  		result,
+  		ggplot2::annotate("text",
+  											x = unlist(with(object, dist[effective_minindex1, "n_active"])) - 0.5,
+  											y = unlist(with(object, dist[effective_maxindex1, "U"])),
+  											label = sprintf("%.2f", object$resilience1),
+  											color = "red")
+  	)
+  	result <- append(
+  		result,
+  		ggplot2::annotate("text",
+  											x = unlist(with(object, dist[effective_minindex2, "n_active"])) + 0.5,
+  											y = unlist(with(object, dist[effective_maxindex2, "U"])),
+  											label = sprintf("%.2f", object$resilience2),
+  											color = "blue")
+  	)
+  }
+  return(result)
+}
+
 
 #' @export
 #' @rdname calculate_resilience

@@ -131,7 +131,7 @@ make_2d_Isingland_matrix <- function(Ising_grid, transform = FALSE) {
 
 #' @export
 print.landscape <- function(x, ...) {
-  print(get_dist(x))
+	cat("A landscape object of the class", class(x)[1], "was estimated. Use `plot()` to draw the landscape plot.")
 }
 
 #' @export
