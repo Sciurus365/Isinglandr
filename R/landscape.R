@@ -140,7 +140,8 @@ plot.2d_Isingland <- function(x, ...) {
     ggplot2::geom_point() +
     ggplot2::geom_line() +
     ggplot2::theme_bw() +
-    ggplot2::xlab("Number of active nodes")
+    ggplot2::xlab("Number of active nodes") +
+		ggplot2::scale_x_continuous(breaks = seq(from = 0, to = x$Nvar, by = 3), minor_breaks = 1:x$Nvar)
 }
 
 #' @export
@@ -149,7 +150,8 @@ plot.2d_Isingland_matrix <- function(x, ...) {
     ggplot2::geom_point() +
     ggplot2::geom_line() +
     ggplot2::theme_bw() +
-    ggplot2::xlab("Number of active nodes")
+    ggplot2::xlab("Number of active nodes") +
+  	ggplot2::scale_x_continuous(breaks = seq(from = 0, to = x$Nvar, by = 3), minor_breaks = 1:x$Nvar)
 
   if (length(attr(x, "par_name")) == 1) {
     p <- p + ggplot2::facet_wrap(attr(x, "par_name"))
