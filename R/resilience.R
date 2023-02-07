@@ -87,7 +87,7 @@ calculate_resilience.2d_Isingland <- function(l, split_value = 0.5*l$Nvar, ...) 
 #' @param ... Not in use.
 #'
 #' @export
-#' @rdname autolayer.resilience
+#' @name autolayer.resilience
 autolayer.resilience_2d_Isingland <- function(object, point = TRUE, line = TRUE, split_value = TRUE, interval = TRUE, resilience_value = TRUE, ...) {
   result <- list()
   if (point) {

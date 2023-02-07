@@ -7,3 +7,8 @@
 ^.*\.gif$
 ^.*\.RData$
 ^README\_cache$
+^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^cran-comments\.md$

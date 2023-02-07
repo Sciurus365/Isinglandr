@@ -5,14 +5,18 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/Isinglandr)](https://CRAN.R-project.org/package=Isinglandr)
 ![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)
+[![](https://cranlogs.r-pkg.org/badges/Isinglandr)](https://cran.r-project.org/package=Isinglandr)
+[![R-CMD-check](https://github.com/Sciurus365/Isinglandr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Sciurus365/Isinglandr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 A toolbox for constructing potential landscapes for Ising networks. The
 parameters of the networks can be directly supplied by users or
 estimated by the `IsingFit` package
 <https://CRAN.R-project.org/package=IsingFit> from empirical data. The
-Ising models’ Boltzmann distribution is preserved for the potential
+Ising model’s Boltzmann distribution is preserved for the potential
 landscape function. The landscape functions can be used for quantifying
 and visualizing the stability of network states, as well as visualizing
 the simulation process.
@@ -75,6 +79,8 @@ result4 <- make_Ising_grid(
   m, w
 ) %>% make_2d_Isingland_matrix()
 plot(result4)
+#> Scale for x is already present.
+#> Adding another scale for x, which will replace the existing scale.
 ```
 
 <img src="man/figures/README-example-4.png" width="100%" />

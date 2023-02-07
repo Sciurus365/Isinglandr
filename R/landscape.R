@@ -42,6 +42,14 @@
 #' Wang, J., Xu, L., & Wang, E. (2008). Potential landscape and flux framework of nonequilibrium networks: Robustness, dissipation, and coherence of biochemical oscillations. Proceedings of the National Academy of Sciences, 105(34), 12271-12276. https://doi.org/10.1073/pnas.0800579105
 #' Sacha Epskamp (2020). IsingSampler: Sampling methods and distribution functions for the Ising model. R package version 0.2.1. https://CRAN.R-project.org/package=IsingSampler
 #' Glauber, R. J. (1963). Time-dependent statistics of the Ising model. Journal of Mathematical Physics, 4(2), 294-307. https://doi.org/10.1063/1.1703954
+#'
+#' @examples
+#' Nvar <- 10
+#' m <- rep(0, Nvar)
+#' w <- matrix(0.1, Nvar, Nvar)
+#' diag(w) <- 0
+#' result1 <- make_2d_Isingland(m, w)
+#' plot(result1)
 #' @export
 make_2d_Isingland <- function(thresholds, weiadj, beta = 1, transform = FALSE) {
   Nvar <- length(thresholds)

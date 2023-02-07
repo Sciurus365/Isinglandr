@@ -16,12 +16,13 @@ knitr::opts_chunk$set(
 # `Isinglandr`: Landscape Construction and Simulation for Ising Networks <img src='man/figures/logo.png' align="right" height="138" />
 
 <!-- badges: start -->
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/Isinglandr)](https://cran.r-project.org/package=Isinglandr)
+[![CRAN status](https://www.r-pkg.org/badges/version/Isinglandr)](https://CRAN.R-project.org/package=Isinglandr)
 ![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)
 [![](https://cranlogs.r-pkg.org/badges/Isinglandr)](https://cran.r-project.org/package=Isinglandr)
+[![R-CMD-check](https://github.com/Sciurus365/Isinglandr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Sciurus365/Isinglandr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-A toolbox for constructing potential landscapes for Ising networks. The parameters of the networks can be directly supplied by users or estimated by the `IsingFit` package <https://CRAN.R-project.org/package=IsingFit> from empirical data. The Ising models' Boltzmann distribution is preserved for the potential landscape function. The landscape functions can be used for quantifying and visualizing the stability of network states, as well as visualizing the simulation process.
+A toolbox for constructing potential landscapes for Ising networks. The parameters of the networks can be directly supplied by users or estimated by the `IsingFit` package <https://CRAN.R-project.org/package=IsingFit> from empirical data. The Ising model's Boltzmann distribution is preserved for the potential landscape function. The landscape functions can be used for quantifying and visualizing the stability of network states, as well as visualizing the simulation process.
 
 ## Installation
 

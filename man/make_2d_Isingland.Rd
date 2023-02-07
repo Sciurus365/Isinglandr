@@ -48,6 +48,14 @@ where \eqn{v} represent a specific activation state of the network,
 \eqn{a(v)} is the number of active nodes for \eqn{v}, and \eqn{H} is the
 Hamiltonian function for Ising networks.
 }
+\examples{
+Nvar <- 10
+m <- rep(0, Nvar)
+w <- matrix(0.1, Nvar, Nvar)
+diag(w) <- 0
+result1 <- make_2d_Isingland(m, w)
+plot(result1)
+}
 \references{
 Wang, J., Xu, L., & Wang, E. (2008). Potential landscape and flux framework of nonequilibrium networks: Robustness, dissipation, and coherence of biochemical oscillations. Proceedings of the National Academy of Sciences, 105(34), 12271-12276. https://doi.org/10.1073/pnas.0800579105
 Sacha Epskamp (2020). IsingSampler: Sampling methods and distribution functions for the Ising model. R package version 0.2.1. https://CRAN.R-project.org/package=IsingSampler
