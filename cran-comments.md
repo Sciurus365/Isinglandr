@@ -1,3 +1,9 @@
+- This is a re-submission, in which the following issues were solved:
+	- Used only undirected quotation marks in the description text.
+	- Added reference to the 'IsingFit' package.
+	- Added \value and \arguments fields to some functions.
+	- Added several examples.
+
 ## Test environments
 
 - local R installation in Windows R 4.2.2

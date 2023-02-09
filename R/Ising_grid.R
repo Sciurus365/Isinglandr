@@ -142,6 +142,8 @@ generator_control_seq <- function(type) {
 #' and the original threshold value(s) or the original weight(ed
 #' adjacency matrix)? `*` by default, which means the values supplied
 #' in `seq` will be multiplied to the original value, vector, or matrix.
+#'
+#' @return An `ctrl_*` object specifying the varying parameters.
 #' @name make_Ising_grid-control-functions
 NULL
 

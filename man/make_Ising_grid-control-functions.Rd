@@ -34,6 +34,9 @@ and the original threshold value(s) or the original weight(ed
 adjacency matrix)? \code{*} by default, which means the values supplied
 in \code{seq} will be multiplied to the original value, vector, or matrix.}
 }
+\value{
+An \verb{ctrl_*} object specifying the varying parameters.
+}
 \description{
 Control Functions to Specify the Varying Parameters for
 an Ising Grid.

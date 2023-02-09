@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-A toolbox for constructing potential landscapes for Ising networks. The parameters of the networks can be directly supplied by users or estimated by the `IsingFit` package \url{https://CRAN.R-project.org/package=IsingFit} from empirical data. The Ising model's Boltzmann distribution is preserved for the potential landscape function. The landscape functions can be used for quantifying and visualizing the stability of network states, as well as visualizing the simulation process.
+A toolbox for constructing potential landscapes for Ising networks. The parameters of the networks can be directly supplied by users or estimated by the 'IsingFit' package by van Borkulo and Epskamp (2016) \url{https://CRAN.R-project.org/package=IsingFit} from empirical data. The Ising model's Boltzmann distribution is preserved for the potential landscape function. The landscape functions can be used for quantifying and visualizing the stability of network states, as well as visualizing the simulation process.
 }
 \seealso{
 Useful links:

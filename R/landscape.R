@@ -106,7 +106,17 @@ make_2d_Isingland <- function(thresholds, weiadj, beta = 1, transform = FALSE) {
 #'   distribution and the potential values for different states.
 #'   \item `Nvar` The number of variables (nodes) in the Ising network.
 #' }
-#'
+#' @examples
+#' Nvar <- 10
+#' m <- rep(0, Nvar)
+#' w <- matrix(0.1, Nvar, Nvar)
+#' diag(w) <- 0
+#' result4 <- make_Ising_grid(
+#' all_thresholds(seq(-0.1, 0.1, 0.1), .f = `+`),
+#' whole_weiadj(seq(0.5, 1.5, 0.5)),
+#' m, w
+#' ) %>% make_2d_Isingland_matrix()
+#' plot(result4)
 #' @export
 make_2d_Isingland_matrix <- function(Ising_grid, transform = FALSE) {
   dist_raw <- Ising_grid %>%
@@ -183,6 +193,14 @@ plot.2d_Isingland_matrix <- function(x, ...) {
 #' nodes for two categories.
 #'
 #' @seealso [make_2d_Isingland()] for the algorithm.
+#'
+#' @return A `3d_Isingland` object that contains the following components:
+#' \itemize{
+#'   \item `dist_raw`,`dist` Two tibbles containing the probability
+#'   distribution and the potential values for different states.
+#'   \item `thresholds`,`weiadj`,`beta` The parameters supplied to the function.
+#'   \item `Nvar` The number of variables (nodes) in the Ising network.
+#' }
 #'
 #' @export
 make_3d_Isingland <- function(thresholds, weiadj, x, y, beta = 1, transform = FALSE) {

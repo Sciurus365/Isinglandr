@@ -49,6 +49,18 @@ U <- function(l, x) {
 #'  \item `landscape` The landscape object supplied to this function.
 #'  \item `mode` A character representing the mode of the simulation.
 #' }
+#'
+#' @examplesIf interactive()
+#' Nvar <- 10
+#' m <- rep(0, Nvar)
+#' w <- matrix(0.1, Nvar, Nvar)
+#' diag(w) <- 0
+#' result1 <- make_2d_Isingland(m, w)
+#' plot(result1)
+#'
+#' set.seed(1614)
+#' sim1 <- simulate_Isingland(result1, initial = 5)
+#' plot(sim1)
 #' @export
 simulate_Isingland <- function(l, ...) {
   UseMethod("simulate_Isingland", l)

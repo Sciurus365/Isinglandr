@@ -22,6 +22,9 @@
 
 \item{...}{Not in use.}
 }
+\value{
+a ggplot layer
+}
 \description{
 Those layers can show how the resilience metrics are calculated on the landscape.
 }

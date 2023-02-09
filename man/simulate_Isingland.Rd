@@ -73,3 +73,17 @@ The possibility of the three cases is determined by their potential function:
 where \eqn{n_{t}} is the number of active nodes at the time \eqn{t}, and
 \eqn{U(n)} is the potential function.
 }
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+Nvar <- 10
+m <- rep(0, Nvar)
+w <- matrix(0.1, Nvar, Nvar)
+diag(w) <- 0
+result1 <- make_2d_Isingland(m, w)
+plot(result1)
+
+set.seed(1614)
+sim1 <- simulate_Isingland(result1, initial = 5)
+plot(sim1)
+\dontshow{\}) # examplesIf}
+}

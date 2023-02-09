@@ -22,6 +22,15 @@ to use \code{-1} and \code{1} for two states. Set \code{transform = TRUE} if the
 network uses \code{0} and \code{1} for two states, \emph{which is often the case for the
 Ising networks estimated using} \code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}.}
 }
+\value{
+A \verb{3d_Isingland} object that contains the following components:
+\itemize{
+\item \code{dist_raw},\code{dist} Two tibbles containing the probability
+distribution and the potential values for different states.
+\item \code{thresholds},\code{weiadj},\code{beta} The parameters supplied to the function.
+\item \code{Nvar} The number of variables (nodes) in the Ising network.
+}
+}
 \description{
 Similar to \code{\link[=make_2d_Isingland]{make_2d_Isingland()}}, but two categories of nodes can
 be specified so the number of active nodes can be calculated

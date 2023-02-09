@@ -106,10 +106,11 @@ shiny_ui <- function() {
 
 #' A shiny app that shows the landscape for
 #' the Ising network of major depressive disorder
+#' @param ... Not in use.
 #'
 #' @export
-#'
-shiny_Isingland_MDD <- function() {
+#' @return This function opens a Shiny app session without a return value.
+shiny_Isingland_MDD <- function(...) {
   app <- shiny::shinyApp(shiny_ui, shiny_server)
   shiny::runApp(app)
 }
