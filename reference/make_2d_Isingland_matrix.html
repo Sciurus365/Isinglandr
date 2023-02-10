@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">Isinglandr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,6 +77,23 @@ distribution and the potential values for different states.</p></li>
 <li><p><code>Nvar</code> The number of variables (nodes) in the Ising network.</p></li>
 </ul></div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">Nvar</span> <span class="op">&lt;-</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">Nvar</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="va">Nvar</span>, <span class="va">Nvar</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">0</span></span></span>
+<span class="r-in"><span><span class="va">result4</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_Ising_grid.html">make_Ising_grid</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="make_Ising_grid-control-functions.html">all_thresholds</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span><span class="op">)</span>, .f <span class="op">=</span> <span class="va">`+`</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span><span class="fu"><a href="make_Ising_grid-control-functions.html">whole_weiadj</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span><span class="va">m</span>, <span class="va">w</span></span></span>
+<span class="r-in"><span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">make_2d_Isingland_matrix</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">result4</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Scale for <span style="color: #00BB00;">x</span> is already present.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Adding another scale for <span style="color: #00BB00;">x</span>, which will replace the existing scale.</span>
+<span class="r-plt img"><img src="make_2d_Isingland_matrix-1.png" alt="" width="700" height="433"></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

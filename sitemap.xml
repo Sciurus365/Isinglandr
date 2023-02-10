@@ -22,16 +22,10 @@
     <loc>https://sciurus365.github.io/Isinglandr/reference/MDDNetwork.html</loc>
   </url>
   <url>
-    <loc>https://sciurus365.github.io/Isinglandr/reference/autolayer.html</loc>
-  </url>
-  <url>
     <loc>https://sciurus365.github.io/Isinglandr/reference/autolayer.resilience.html</loc>
   </url>
   <url>
     <loc>https://sciurus365.github.io/Isinglandr/reference/calculate_barrier.Isingland.html</loc>
-  </url>
-  <url>
-    <loc>https://sciurus365.github.io/Isinglandr/reference/calculate_barrier.html</loc>
   </url>
   <url>
     <loc>https://sciurus365.github.io/Isinglandr/reference/calculate_resilience.html</loc>
@@ -59,6 +53,9 @@
   </url>
   <url>
     <loc>https://sciurus365.github.io/Isinglandr/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://sciurus365.github.io/Isinglandr/reference/reexports.html</loc>
   </url>
   <url>
     <loc>https://sciurus365.github.io/Isinglandr/reference/shiny_Isingland_MDD.html</loc>
