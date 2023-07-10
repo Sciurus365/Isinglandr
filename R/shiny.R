@@ -1,5 +1,9 @@
 shiny_server <- function(input, output, session) {
+	utils::data("MDDThresholds", package = "Isinglandr", envir = environment())
+	utils::data("MDDConnectivity", package = "Isinglandr", envir = environment())
+
   # produce the landscape plot
+
   output$l <- shiny::renderPlot({
     original_network <- make_2d_Isingland(input$coef_t * MDDThresholds,
       input$coef_c * MDDConnectivity,
