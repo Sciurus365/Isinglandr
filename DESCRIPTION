@@ -39,6 +39,7 @@ Imports:
     tibble,
     tidyr
 Suggests: 
+    gifski,
     transformr
 Encoding: UTF-8
 LazyData: true

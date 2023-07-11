@@ -115,6 +115,8 @@ shiny_ui <- function() {
 #' @export
 #' @return This function opens a Shiny app session without a return value.
 shiny_Isingland_MDD <- function(...) {
+	rlang::check_installed("gifskii", reason = "to render the animation in the Shiny app.")
+
   app <- shiny::shinyApp(shiny_ui, shiny_server)
   shiny::runApp(app)
 }
