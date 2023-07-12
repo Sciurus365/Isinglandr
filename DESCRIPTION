@@ -40,6 +40,8 @@ Imports:
     tidyr
 Suggests: 
     gifski,
+    IsingFit,
+    IsingSampler,
     transformr
 Encoding: UTF-8
 LazyData: true
