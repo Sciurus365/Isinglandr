@@ -1,3 +1,10 @@
+## Changes of Isinglandr 0.1.1
+
+- Bug-fix for the Shiny app (`shiny_Isingland_MDD()`):
+	- Load the data to the Shiny app environment;
+	- Check if `gifski` is installed, which is required to render the animations 
+	(also added `gifski` as a suggested package).
+
 ## Test environments
 
 - local R installation in Windows R 4.2.3

@@ -1,4 +1,4 @@
-# Development version
+# Isinglandr 0.1.1
 
 - Bug-fix for the Shiny app (`shiny_Isingland_MDD()`):
 	- Load the data to the Shiny app environment;
