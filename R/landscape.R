@@ -190,7 +190,8 @@ plot.2d_Isingland_matrix <- function(x, ...) {
 #'
 #' @inheritParams make_2d_Isingland
 #' @param x,y Two vectors specifying the indices or the names of the
-#' nodes for two categories.
+#' nodes for two categories. If they are character vectors, the names
+#' should match the row names of the `thresholds` matrix.
 #'
 #' @seealso [make_2d_Isingland()] for the algorithm.
 #'
@@ -206,6 +207,15 @@ plot.2d_Isingland_matrix <- function(x, ...) {
 make_3d_Isingland <- function(thresholds, weiadj, x, y, beta = 1, transform = FALSE) {
   l_2d <- make_2d_Isingland(thresholds, weiadj, beta, transform)
   d <- l_2d$dist_raw
+
+  if (is.character(x)) {
+  	if (!all(x %in% row.names(thresholds))) stop("The names in x are not found in the row names of the thresholds matrix.")
+    x <- which(row.names(thresholds) %in% x)
+  }
+  if (is.character(y)) {
+  	if (!all(y %in% row.names(thresholds))) stop("The names in y are not found in the row names of the thresholds matrix.")
+    y <- which(row.names(thresholds) %in% y)
+  }
 
   ## summarize based on the number of symptoms in the groups x & y
   d_sum <- d %>%

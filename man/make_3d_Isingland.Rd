@@ -13,7 +13,8 @@ of the Ising network. If you have an \code{IsingFit} object estimated using
 (\verb{<IsingFit>$thresholds} and \verb{<IsingFit>$weiadj}).}
 
 \item{x, y}{Two vectors specifying the indices or the names of the
-nodes for two categories.}
+nodes for two categories. If they are character vectors, the names
+should match the row names of the \code{thresholds} matrix.}
 
 \item{beta}{The \eqn{\beta} value for calculating the Hamiltonian.}
 

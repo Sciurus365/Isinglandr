@@ -1,7 +1,7 @@
 Type: Package
 Package: Isinglandr
 Title: Landscape Construction and Simulation for Ising Networks
-Version: 0.1.1
+Version: 0.1.1.9000
 Authors@R: c(
     person("Jingmeng", "Cui", , "jingmeng.cui@outlook.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-3421-8457")),
@@ -46,4 +46,4 @@ Suggests:
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.2
+RoxygenNote: 7.3.0
