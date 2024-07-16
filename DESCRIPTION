@@ -23,6 +23,9 @@ BugReports: https://github.com/Sciurus365/Isinglandr/issues
 Depends: 
     R (>= 2.10)
 Imports: 
+    boot,
+    boot.pval,
+    broom,
     dplyr,
     gganimate,
     ggplot2,
