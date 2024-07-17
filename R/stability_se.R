@@ -36,5 +36,59 @@ calculate_stability_se <- function(data, split_value = 0.5 * ncol(data), R = 100
     dplyr::ungroup() %>%
     dplyr::select(-row.index)
 
-  return(output)
+  return(
+    structure(
+      list(stats = output, boot_res = boot_res),
+      class = c("stability_se", "list")
+    )
+  )
+}
+
+
+#' @export
+#' @rdname calculate_stability_se
+#' @param x An object of class \code{stability_se}
+#'
+print.stability_se <- function(x, ...) {
+  print(x$stats)
+  invisible(x)
+}
+
+
+#' Compare the stability metrics between two Ising landscapes
+#'
+#' @param stability_se_1,stability_se_2 Two objects of class \code{stability_se}
+#' @inheritParams calculate_stability_se
+#'
+#' @export
+compare_stability <- function(stability_se_1, stability_se_2, boot.ci_options = list(type = "perc"), boot.pval_options = list()) {
+  new_boot <- stability_se_1$boot_res
+  new_boot$t0 <- stability_se_1$boot_res$t0 - stability_se_2$boot_res$t0
+  new_boot$t <- stability_se_1$boot_res$t - stability_se_2$boot_res$t
+  new_boot$data <- NULL
+  new_boot$seed <- NULL
+  new_boot$strata <- NULL
+  new_boot$weights <- NULL
+
+  output <- broom::tidy(new_boot)
+  boot_res <- new_boot
+
+  output <- output %>%
+    dplyr::mutate(row.index = dplyr::row_number()) %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(
+      p.value = do.call(boot.pval::boot.pval, append(boot.pval_options, list(boot_res = boot_res, index = row.index), after = 0)),
+      conf.low = do.call(boot::boot.ci, append(boot.ci_options, list(boot.out = boot_res, index = row.index), after = 0))$percent[4],
+      conf.high = do.call(boot::boot.ci, append(boot.ci_options, list(boot.out = boot_res, index = row.index), after = 0))$percent[5]
+    ) %>%
+    dplyr::mutate(p.value = ifelse(statistic == 0 & std.error == 0, NA, p.value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(-row.index)
+
+  return(
+    structure(
+      list(stats = output, boot_res = new_boot),
+      class = c("compare_stability_se", "stability_se", "list")
+    )
+  )
 }

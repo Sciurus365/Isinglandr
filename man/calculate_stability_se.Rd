@@ -2,6 +2,7 @@
 % Please edit documentation in R/stability_se.R
 \name{calculate_stability_se}
 \alias{calculate_stability_se}
+\alias{print.stability_se}
 \title{Calculate the standard error and related range estimates for the stability metrics}
 \usage{
 calculate_stability_se(
@@ -14,6 +15,8 @@ calculate_stability_se(
   boot.pval_options = list(),
   ...
 )
+
+\method{print}{stability_se}(x, ...)
 }
 \arguments{
 \item{data}{A matrix of binary data}
@@ -38,6 +41,8 @@ calculate_stability_se(
 \item{boot.pval_options}{Parameters passed to \code{\link[boot.pval:boot.pval]{boot.pval::boot.pval()}}}
 
 \item{...}{Parameters passed to \code{\link[boot:boot]{boot::boot()}}}
+
+\item{x}{An object of class \code{stability_se}}
 }
 \description{
 Calculate the standard error and related range estimates for the stability metrics
