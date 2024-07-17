@@ -181,11 +181,12 @@ plot.sim_2d_Isingland <- function(x, ...) {
   } else if (x$mode == "distribution") {
     return(
       plot.2d_Isingland(x$landscape) +
-        ggplot2::geom_point(ggplot2::aes(
-          x = n_active, y = U,
-          alpha = density
-        ),
-        data = d, color = "black", size = 10
+        ggplot2::geom_point(
+          ggplot2::aes(
+            x = n_active, y = U,
+            alpha = density
+          ),
+          data = d, color = "black", size = 10
         ) +
         ggplot2::scale_alpha_continuous(range = c(0, 1)) +
         gganimate::transition_time(time) +
@@ -214,11 +215,12 @@ plot.sim_2d_Isingland_matrix <- function(x, ...) {
   } else if (x$mode == "distribution") {
     return(
       plot.2d_Isingland_matrix(x$landscape) +
-        ggplot2::geom_point(ggplot2::aes(
-          x = n_active, y = U,
-          alpha = density
-        ),
-        data = d, color = "black", size = 10
+        ggplot2::geom_point(
+          ggplot2::aes(
+            x = n_active, y = U,
+            alpha = density
+          ),
+          data = d, color = "black", size = 10
         ) +
         ggplot2::scale_alpha_continuous(range = c(0, 1)) +
         gganimate::transition_time(time) +

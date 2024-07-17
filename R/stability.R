@@ -25,7 +25,7 @@ calculate_stability <- function(l, ...) {
 #' @param split_value An integer to specify the number of active nodes used to split two stability ranges. Default is half of the number of nodes.
 #' @export
 #' @rdname calculate_stability
-calculate_stability.2d_Isingland <- function(l, split_value = 0.5*l$Nvar, ...) {
+calculate_stability.2d_Isingland <- function(l, split_value = 0.5 * l$Nvar, ...) {
   d <- get_dist(l)
 
   # split the data into two parts
@@ -98,8 +98,8 @@ autolayer.stability_2d_Isingland <- function(object, point = TRUE, line = TRUE, 
       ggplot2::geom_point(data = with(object, dist[c(effective_minindex1, effective_maxindex1), ]), ggplot2::aes(x = n_active, y = U), size = 2, color = "red")
     )
     result <- append(
-    	result,
-    	ggplot2::geom_point(data = with(object, dist[c(effective_minindex2, effective_maxindex2), ]), ggplot2::aes(x = n_active, y = U), size = 2, color = "blue")
+      result,
+      ggplot2::geom_point(data = with(object, dist[c(effective_minindex2, effective_maxindex2), ]), ggplot2::aes(x = n_active, y = U), size = 2, color = "blue")
     )
   }
   if (line) {
@@ -126,39 +126,41 @@ autolayer.stability_2d_Isingland <- function(object, point = TRUE, line = TRUE, 
     )
   }
   if (interval) {
-  	result <- append(
-  		result,
-  		ggplot2::geom_errorbar(data = tibble::tribble(
-				~x, ~ymin, ~ymax,
-				unlist(with(object, dist[effective_minindex1, "n_active"])), unlist(with(object, dist[effective_minindex1, "U"])), unlist(with(object, dist[effective_maxindex1, "U"]))
-  		), ggplot2::aes(x = x, y = NULL, ymin = ymin, ymax = ymax), color = "red", width = 0.2)
-  	)
-  	result <- append(
-  		result,
-  		ggplot2::geom_errorbar(data = tibble::tribble(
-  			~x, ~ymin, ~ymax,
-  			unlist(with(object, dist[effective_minindex2, "n_active"])), unlist(with(object, dist[effective_minindex2, "U"])), unlist(with(object, dist[effective_maxindex2, "U"]))
-  		), ggplot2::aes(x = x, y = NULL, ymin = ymin, ymax = ymax), color = "blue", width = 0.2)
-  	)
+    result <- append(
+      result,
+      ggplot2::geom_errorbar(data = tibble::tribble(
+        ~x, ~ymin, ~ymax,
+        unlist(with(object, dist[effective_minindex1, "n_active"])), unlist(with(object, dist[effective_minindex1, "U"])), unlist(with(object, dist[effective_maxindex1, "U"]))
+      ), ggplot2::aes(x = x, y = NULL, ymin = ymin, ymax = ymax), color = "red", width = 0.2)
+    )
+    result <- append(
+      result,
+      ggplot2::geom_errorbar(data = tibble::tribble(
+        ~x, ~ymin, ~ymax,
+        unlist(with(object, dist[effective_minindex2, "n_active"])), unlist(with(object, dist[effective_minindex2, "U"])), unlist(with(object, dist[effective_maxindex2, "U"]))
+      ), ggplot2::aes(x = x, y = NULL, ymin = ymin, ymax = ymax), color = "blue", width = 0.2)
+    )
   }
 
-  if(stability_value) {
-  	result <- append(
-  		result,
-  		ggplot2::annotate("text",
-  											x = unlist(with(object, dist[effective_minindex1, "n_active"])) - 0.5,
-  											y = unlist(with(object, dist[effective_maxindex1, "U"])),
-  											label = sprintf("%.2f", object$stability1),
-  											color = "red")
-  	)
-  	result <- append(
-  		result,
-  		ggplot2::annotate("text",
-  											x = unlist(with(object, dist[effective_minindex2, "n_active"])) + 0.5,
-  											y = unlist(with(object, dist[effective_maxindex2, "U"])),
-  											label = sprintf("%.2f", object$stability2),
-  											color = "blue")
-  	)
+  if (stability_value) {
+    result <- append(
+      result,
+      ggplot2::annotate("text",
+        x = unlist(with(object, dist[effective_minindex1, "n_active"])) - 0.5,
+        y = unlist(with(object, dist[effective_maxindex1, "U"])),
+        label = sprintf("%.2f", object$stability1),
+        color = "red"
+      )
+    )
+    result <- append(
+      result,
+      ggplot2::annotate("text",
+        x = unlist(with(object, dist[effective_minindex2, "n_active"])) + 0.5,
+        y = unlist(with(object, dist[effective_maxindex2, "U"])),
+        label = sprintf("%.2f", object$stability2),
+        color = "blue"
+      )
+    )
   }
   return(result)
 }
@@ -166,7 +168,7 @@ autolayer.stability_2d_Isingland <- function(object, point = TRUE, line = TRUE, 
 
 #' @export
 #' @rdname calculate_stability
-calculate_stability.2d_Isingland_matrix <- function(l, split_value = 0.5*l$Nvar, ...) {
+calculate_stability.2d_Isingland_matrix <- function(l, split_value = 0.5 * l$Nvar, ...) {
   d_raw <- l$dist_raw
   d_raw <- d_raw %>%
     dplyr::rowwise() %>%
@@ -222,12 +224,14 @@ summary.stability_2d_Isingland <- function(object, ...) {
 #' @export
 #' @inheritParams base::summary
 summary.stability_2d_Isingland_matrix <- function(object, ...) {
-	object %>%
-		dplyr::rowwise() %>%
-		dplyr::mutate(stability_measures = list(summary(stability)),
-									stability1 = stability_measures["stability1"],
-									stability2 = stability_measures["stability2"],
-									stability_diff = stability_measures["stability_diff"]) %>%
-		dplyr::ungroup() %>%
-		dplyr::select(-stability, -stability_measures)
+  object %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(
+      stability_measures = list(summary(stability)),
+      stability1 = stability_measures["stability1"],
+      stability2 = stability_measures["stability2"],
+      stability_diff = stability_measures["stability_diff"]
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(-stability, -stability_measures)
 }

@@ -49,7 +49,7 @@ calculate_barrier.2d_Isingland <- function(l, ...) {
     }
   }
 
-  rlang::abort("The shape of the landscape is not supported for calculating barrier.")
+  cli::cli_abort("The shape of the landscape is not supported for calculating barrier.")
 }
 #' @export
 #' @rdname calculate_barrier.Isingland

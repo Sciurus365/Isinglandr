@@ -26,6 +26,7 @@ Imports:
     boot,
     boot.pval,
     broom,
+    cli,
     dplyr,
     gganimate,
     ggplot2,

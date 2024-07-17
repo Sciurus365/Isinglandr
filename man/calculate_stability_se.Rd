@@ -9,6 +9,7 @@ calculate_stability_se(
   split_value = 0.5 * ncol(data),
   R = 1000,
   IsingFit_options = list(),
+  Isingland_options = list(),
   boot.ci_options = list(type = "perc"),
   boot.pval_options = list(),
   ...
@@ -28,7 +29,9 @@ calculate_stability_se(
     weights.
   }
 
-\item{IsingFit_options}{Parameters passed to \code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}. Temporarily not effective.}
+\item{IsingFit_options}{Parameters passed to \code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}.}
+
+\item{Isingland_options}{Parameters passed to \code{\link[=make_2d_Isingland]{make_2d_Isingland()}}}
 
 \item{boot.ci_options}{Parameters passed to \code{\link[boot:boot.ci]{boot::boot.ci()}}}
 

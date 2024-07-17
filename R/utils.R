@@ -43,7 +43,7 @@ abort_bad_argument <- function(arg, must, not = NULL) {
     msg <- glue::glue("{msg}; not {not}.")
   }
 
-  rlang::abort("error_bad_argument",
+  cli::cli_abort("error_bad_argument",
     message = msg,
     arg = arg,
     must = must,
