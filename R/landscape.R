@@ -52,6 +52,10 @@
 #' plot(result1)
 #' @export
 make_2d_Isingland <- function(thresholds, weiadj, beta = 1, transform = FALSE) {
+  if (!transform) {
+    cli::cli_inform("The Ising network uses -1 and 1 for two states. If it uses 0 and 1, {.strong (which is often the case for psychological datasets)}, set `transform = TRUE`.", .frequency = "regularly", .frequency_id = "Isingland_transform")
+  }
+
   Nvar <- length(thresholds)
 
   # transformation
@@ -112,9 +116,9 @@ make_2d_Isingland <- function(thresholds, weiadj, beta = 1, transform = FALSE) {
 #' w <- matrix(0.1, Nvar, Nvar)
 #' diag(w) <- 0
 #' result4 <- make_Ising_grid(
-#' all_thresholds(seq(-0.1, 0.1, 0.1), .f = `+`),
-#' whole_weiadj(seq(0.5, 1.5, 0.5)),
-#' m, w
+#'   all_thresholds(seq(-0.1, 0.1, 0.1), .f = `+`),
+#'   whole_weiadj(seq(0.5, 1.5, 0.5)),
+#'   m, w
 #' ) %>% make_2d_Isingland_matrix()
 #' plot(result4)
 #' @export
@@ -149,7 +153,7 @@ make_2d_Isingland_matrix <- function(Ising_grid, transform = FALSE) {
 
 #' @export
 print.landscape <- function(x, ...) {
-	cat("A landscape object of the class", class(x)[1], "was estimated. Use `plot()` to draw the landscape plot.")
+  cat("A landscape object of the class", class(x)[1], "was estimated. Use `plot()` to draw the landscape plot.")
 }
 
 #' @export
@@ -159,7 +163,7 @@ plot.2d_Isingland <- function(x, ...) {
     ggplot2::geom_line() +
     ggplot2::theme_bw() +
     ggplot2::xlab("Number of active nodes") +
-		ggplot2::scale_x_continuous(breaks = seq(from = 0, to = x$Nvar, by = 3), minor_breaks = 1:x$Nvar)
+    ggplot2::scale_x_continuous(breaks = seq(from = 0, to = x$Nvar, by = 3), minor_breaks = 1:x$Nvar)
 }
 
 #' @export
@@ -169,7 +173,7 @@ plot.2d_Isingland_matrix <- function(x, ...) {
     ggplot2::geom_line() +
     ggplot2::theme_bw() +
     ggplot2::xlab("Number of active nodes") +
-  	ggplot2::scale_x_continuous(breaks = seq(from = 0, to = x$Nvar, by = 3), minor_breaks = 1:x$Nvar)
+    ggplot2::scale_x_continuous(breaks = seq(from = 0, to = x$Nvar, by = 3), minor_breaks = 1:x$Nvar)
 
   if (length(attr(x, "par_name")) == 1) {
     p <- p + ggplot2::facet_wrap(attr(x, "par_name"))
@@ -209,11 +213,11 @@ make_3d_Isingland <- function(thresholds, weiadj, x, y, beta = 1, transform = FA
   d <- l_2d$dist_raw
 
   if (is.character(x)) {
-  	if (!all(x %in% row.names(thresholds))) stop("The names in x are not found in the row names of the thresholds matrix.")
+    if (!all(x %in% row.names(thresholds))) stop("The names in x are not found in the row names of the thresholds matrix.")
     x <- which(row.names(thresholds) %in% x)
   }
   if (is.character(y)) {
-  	if (!all(y %in% row.names(thresholds))) stop("The names in y are not found in the row names of the thresholds matrix.")
+    if (!all(y %in% row.names(thresholds))) stop("The names in y are not found in the row names of the thresholds matrix.")
     y <- which(row.names(thresholds) %in% y)
   }
 

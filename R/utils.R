@@ -43,7 +43,7 @@ abort_bad_argument <- function(arg, must, not = NULL) {
     msg <- glue::glue("{msg}; not {not}.")
   }
 
-  rlang::abort("error_bad_argument",
+  cli::cli_abort("error_bad_argument",
     message = msg,
     arg = arg,
     must = must,
@@ -52,4 +52,4 @@ abort_bad_argument <- function(arg, must, not = NULL) {
 }
 
 # Undefined global
-utils::globalVariables(c(".", ".data", ".env", "barrier", "density", "dist", "freq", "landscape", "n_active", "sim", "sim_output", "sum_freq", "sum_state", "thresholds_list", "time", "v", "weiadj_list", "MDDConnectivity", "MDDThresholds", "resilience", "resilience_measures", "sum_state_x", "sum_state_y"))
+utils::globalVariables(c(".", ".data", ".env", "barrier", "density", "dist", "freq", "landscape", "n_active", "sim", "sim_output", "sum_freq", "sum_state", "thresholds_list", "time", "v", "weiadj_list", "MDDConnectivity", "MDDThresholds", "stability", "stability_measures", "sum_state_x", "sum_state_y", "p.value", "row.index", "statistic", "std.error"))

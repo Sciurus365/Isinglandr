@@ -32,9 +32,9 @@ m <- rep(0, Nvar)
 w <- matrix(0.1, Nvar, Nvar)
 diag(w) <- 0
 result4 <- make_Ising_grid(
-all_thresholds(seq(-0.1, 0.1, 0.1), .f = `+`),
-whole_weiadj(seq(0.5, 1.5, 0.5)),
-m, w
+  all_thresholds(seq(-0.1, 0.1, 0.1), .f = `+`),
+  whole_weiadj(seq(0.5, 1.5, 0.5)),
+  m, w
 ) \%>\% make_2d_Isingland_matrix()
 plot(result4)
 }

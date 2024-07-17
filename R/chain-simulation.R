@@ -49,10 +49,10 @@ chain_simulate_Isingland <- function(Ising_chain, transform = FALSE,
 make_Ising_chain <- function(...) {
   Igrids <- list(...)
   if (any(lapply(Igrids, methods::is, class2 = "Ising_grid") == FALSE)) {
-    rlang::abort("All arguments should be `Ising_grid`s.")
+    cli::cli_abort("All arguments should be `Ising_grid`s.")
   }
   if (any(lapply(Igrids, \(x) length(attr(x, "par_name"))) > 1)) {
-    rlang::abort("Each `Ising_grid` should only contain one varying condition.")
+    cli::cli_abort("Each `Ising_grid` should only contain one varying condition.")
   }
 
   Igrids <- Igrids %>% lapply(

@@ -1,6 +1,6 @@
 shiny_server <- function(input, output, session) {
-	utils::data("MDDThresholds", package = "Isinglandr", envir = environment())
-	utils::data("MDDConnectivity", package = "Isinglandr", envir = environment())
+  utils::data("MDDThresholds", package = "Isinglandr", envir = environment())
+  utils::data("MDDConnectivity", package = "Isinglandr", envir = environment())
 
   # produce the landscape plot
 
@@ -115,7 +115,7 @@ shiny_ui <- function() {
 #' @export
 #' @return This function opens a Shiny app session without a return value.
 shiny_Isingland_MDD <- function(...) {
-	rlang::check_installed("gifski", reason = "to render the animation in the Shiny app. After installing, it may be necessary to restart your R session for the changes to take effect.")
+  rlang::check_installed("gifski", reason = "to render the animation in the Shiny app. After installing, it may be necessary to restart your R session for the changes to take effect.")
 
   app <- shiny::shinyApp(shiny_ui, shiny_server)
   shiny::runApp(app)
