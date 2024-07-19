@@ -7,14 +7,14 @@
 compare_stability(
   stability_se_1,
   stability_se_2,
-  boot.ci_options = list(type = "perc"),
-  boot.pval_options = list()
+  boot.ci_options = list(type = "basic"),
+  boot.pval_options = list(type = "basic")
 )
 }
 \arguments{
 \item{stability_se_1, stability_se_2}{Two objects of class \code{stability_se}}
 
-\item{boot.ci_options}{Parameters passed to \code{\link[boot:boot.ci]{boot::boot.ci()}}}
+\item{boot.ci_options}{Parameters passed to \code{\link[boot:boot.ci]{boot::boot.ci()}}. \code{type = "basic"} is set as the default because the stability metric tends to have zero-inflated, skewed distribution, and the basic method is the most robust to such distribution. The same reason is applied to the p-value calculation.}
 
 \item{boot.pval_options}{Parameters passed to \code{\link[boot.pval:boot.pval]{boot.pval::boot.pval()}}}
 }
