@@ -3,16 +3,16 @@
 \name{calculate_stability_se}
 \alias{calculate_stability_se}
 \alias{print.stability_se}
-\title{Calculate the standard error and related range estimates for the stability metrics}
+\title{Calculate the standard error, confidence interval, and p-value for the stability difference between two phases of an Ising network}
 \usage{
 calculate_stability_se(
   data,
   split_value = 0.5 * ncol(data),
   R = 1000,
-  IsingFit_options = list(),
+  IsingFit_options = list(plot = FALSE),
   Isingland_options = list(),
-  boot.ci_options = list(type = "basic"),
-  boot.pval_options = list(type = "basic"),
+  boot.ci_options = list(type = "bca"),
+  boot.pval_options = list(type = "bca"),
   ...
 )
 
@@ -36,14 +36,20 @@ calculate_stability_se(
 
 \item{Isingland_options}{Parameters passed to \code{\link[=make_2d_Isingland]{make_2d_Isingland()}}}
 
-\item{boot.ci_options}{Parameters passed to \code{\link[boot:boot.ci]{boot::boot.ci()}}. \code{type = "basic"} is set as the default because the stability metric tends to have zero-inflated, skewed distribution, and the basic method is the most robust to such distribution. The same reason is applied to the p-value calculation.}
+\item{boot.ci_options}{Parameters passed to \code{\link[boot:boot.ci]{boot::boot.ci()}}. \code{type = "bca"} is set as the default because it performs best in most cases. See references for more information.}
 
-\item{boot.pval_options}{Parameters passed to \code{\link[boot.pval:boot.pval]{boot.pval::boot.pval()}}}
+\item{boot.pval_options}{Parameters passed to \code{\link[boot.pval:boot.pval]{boot.pval::boot.pval()}}. \code{type = "bca"} is set as the default because it performs best in most cases. See references for more information.}
 
 \item{...}{Parameters passed to \code{\link[boot:boot]{boot::boot()}}}
 
 \item{x}{An object of class \code{stability_se}}
 }
 \description{
-Calculate the standard error and related range estimates for the stability metrics
+Currently only the stability difference is calculated. The stability difference is the difference between the stability of the first phase and the stability of the second phase. The stability of a single phase is often highly zero-inflated and leads to difficulty in calculating the standard error. The stability difference is more regularly distributed and is more meaningful to perform the range estimate.
+}
+\references{
+Puth, M.-T., Neuhäuser, M., & Ruxton, G. D. (2015). On the variety of methods for calculating confidence intervals by bootstrapping. Journal of Animal Ecology, 84(4), 892–897. https://doi.org/10.1111/1365-2656.12382
+}
+\seealso{
+\code{\link[=compare_stability]{compare_stability()}} for comparing the stability differences of two groups.
 }
