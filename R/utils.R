@@ -52,4 +52,4 @@ abort_bad_argument <- function(arg, must, not = NULL) {
 }
 
 # Undefined global
-utils::globalVariables(c(".", ".data", ".env", "barrier", "density", "dist", "freq", "landscape", "n_active", "sim", "sim_output", "sum_freq", "sum_state", "thresholds_list", "time", "v", "weiadj_list", "MDDConnectivity", "MDDThresholds", "stability", "stability_measures", "sum_state_x", "sum_state_y", "p.value", "row.index", "statistic", "std.error"))
+utils::globalVariables(c(".", ".data", ".env", "barrier", "density", "dist", "freq", "landscape", "n_active", "sim", "sim_output", "sum_freq", "sum_state", "thresholds_list", "time", "v", "weiadj_list", "MDDConnectivity", "MDDThresholds", "stability", "stability_measures", "sum_state_x", "sum_state_y", "p.value", "row.index", "statistic", "std.error", "group1_stability_diff", "group2_stability_diff", "boot_type"))
