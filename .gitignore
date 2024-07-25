@@ -9,3 +9,7 @@
 
 README_cache/
 docs
+
+*.RDS
+*.rds
+*.pdf

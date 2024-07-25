@@ -3,20 +3,29 @@
 \name{calculate_stability_se}
 \alias{calculate_stability_se}
 \alias{print.stability_se}
-\title{Calculate the standard error and related range estimates for the stability metrics}
+\alias{compare_stability}
+\title{Calculate the standard error, confidence interval, and p-value for the stability metrics of an Ising landscape using bootstrapping}
 \usage{
 calculate_stability_se(
   data,
   split_value = 0.5 * ncol(data),
   R = 1000,
-  IsingFit_options = list(),
+  IsingFit_options = list(plot = FALSE),
   Isingland_options = list(),
-  boot.ci_options = list(type = "perc"),
-  boot.pval_options = list(),
   ...
 )
 
 \method{print}{stability_se}(x, ...)
+
+compare_stability(
+  data1,
+  data2,
+  split_value = 0.5 * ncol(data),
+  R = 1000,
+  IsingFit_options = list(plot = FALSE),
+  Isingland_options = list(),
+  ...
+)
 }
 \arguments{
 \item{data}{A matrix of binary data}
@@ -32,18 +41,26 @@ calculate_stability_se(
     weights.
   }
 
-\item{IsingFit_options}{Parameters passed to \code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}.}
+\item{IsingFit_options}{Parameters passed to \code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}}
 
 \item{Isingland_options}{Parameters passed to \code{\link[=make_2d_Isingland]{make_2d_Isingland()}}}
-
-\item{boot.ci_options}{Parameters passed to \code{\link[boot:boot.ci]{boot::boot.ci()}}}
-
-\item{boot.pval_options}{Parameters passed to \code{\link[boot.pval:boot.pval]{boot.pval::boot.pval()}}}
 
 \item{...}{Parameters passed to \code{\link[boot:boot]{boot::boot()}}}
 
 \item{x}{An object of class \code{stability_se}}
+
+\item{data1, data2}{Two matrices of binary data}
 }
 \description{
-Calculate the standard error and related range estimates for the stability metrics
+Note that the BCa method is used for stability differences, and the percentile method is used for stability measures of individual phases because the stability measures of individual phases are highly zero-inflated and may crash the BCa estimation procedure. \strong{The range estimation of the stability measures of individual phases should be interpreted with caution}.
+}
+\details{
+Use \code{\link[=calculate_stability_se]{calculate_stability_se()}} for a single dataset, and use \code{\link[=compare_stability]{compare_stability()}} for comparing the stability metrics of two groups.
+
+If you encounter the error message "Error in if (any(ints)) out[inds[ints]] <- tstar[k[inds[ints]]] : missing value where TRUE/FALSE needed", you may need to install the patched version of the \code{boot.pval} package with \code{pak::pkg_install("Sciurus365/boot.pval@patch-1")}. See \url{https://github.com/mthulin/boot.pval/issues/4}.
+
+If you encounter the error message "estimated adjustment 'a' is NA", that probably means you should increase the number of bootstrap samples (\code{R}). See \url{https://stats.stackexchange.com/questions/37918/why-is-the-error-estimated-adjustment-a-is-na-generated-from-r-boot-package}.
+}
+\references{
+Puth, M.-T., Neuhäuser, M., & Ruxton, G. D. (2015). On the variety of methods for calculating confidence intervals by bootstrapping. Journal of Animal Ecology, 84(4), 892–897. https://doi.org/10.1111/1365-2656.12382
 }
