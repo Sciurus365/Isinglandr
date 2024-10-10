@@ -82,7 +82,7 @@ calculate_stability.2d_Isingland <- function(l, split_value = 0.5 * l$Nvar, ...)
 #'
 #' Those layers can show how the stability metrics are calculated on the landscape.
 #'
-#' @param object A `stability` object calculated by [calculate_stability()]
+#' @param object A `stability` object calculated by [calculate_stability()] or [calculate_stability.2d_Isingland()].
 #' @param point,line,split_value,interval,stability_value Show those elements on the layer? Default is `TRUE` for all of them.
 #' @param ... Not in use.
 #'
@@ -177,10 +177,145 @@ calculate_stability.2d_Isingland_matrix <- function(l, split_value = 0.5 * l$Nva
   d <- d_raw %>%
     dplyr::select(dplyr::all_of(attr(l, "par_name")), stability)
   return(structure(
-    d,
-    class = c("stability_2d_Isingland_matrix", class(d))
+    list(dist = d, dist_raw = d_raw, split_value = split_value),
+    class = c("stability_2d_Isingland_matrix")
   ))
 }
+
+
+#' @rdname autolayer.stability
+#' @export
+autolayer.stability_2d_Isingland_matrix <- function(object, point = TRUE, line = TRUE, split_value = TRUE, interval = TRUE, stability_value = TRUE, ...) {
+  d_raw <- object$dist_raw %>%
+    dplyr::mutate(stability_unlisted = purrr::map(stability, function(x) {
+      x$dist <- NULL
+      class(x) <- "list"
+      tibble::as_tibble(x)
+    })) %>%
+    tidyr::unnest(stability_unlisted)
+
+  result <- list()
+  if (point) {
+    result <- append(
+      result,
+      ggplot2::geom_point(
+        data = d_raw %>%
+          dplyr::rowwise() %>%
+          dplyr::mutate(dist = list(dist[c(effective_minindex1, effective_maxindex1), ])) %>%
+          tidyr::unnest(dist) %>%
+          dplyr::ungroup(),
+        ggplot2::aes(x = n_active, y = U), size = 2, color = "red"
+      )
+    )
+    result <- append(
+      result,
+      ggplot2::geom_point(
+        data = d_raw %>%
+          dplyr::rowwise() %>%
+          dplyr::mutate(dist = list(dist[c(effective_minindex2, effective_maxindex2), ])) %>%
+          tidyr::unnest(dist) %>%
+          dplyr::ungroup(),
+        ggplot2::aes(x = n_active, y = U), size = 2, color = "blue"
+      )
+    )
+  }
+  if (line) {
+    result <- append(
+      result,
+      ggplot2::geom_path(
+        data = d_raw %>%
+          dplyr::rowwise() %>%
+          dplyr::mutate(dist = list(dist[c(effective_maxindex1:effective_minindex1), c("n_active", "U")])) %>%
+          tidyr::unnest(dist) %>%
+          dplyr::ungroup(),
+        ggplot2::aes(x = n_active, y = U), size = 2, alpha = 0.3, color = "red"
+      )
+    )
+
+    result <- append(
+      result,
+      ggplot2::geom_path(
+        data = d_raw %>%
+          dplyr::rowwise() %>%
+          dplyr::mutate(dist = list(dist[c(effective_maxindex2:effective_minindex2), c("n_active", "U")])) %>%
+          tidyr::unnest(dist) %>%
+          dplyr::ungroup(),
+        ggplot2::aes(x = n_active, y = U), size = 2, alpha = 0.3, color = "blue"
+      )
+    )
+  }
+  if (split_value) {
+    result <- append(
+      result,
+      ggplot2::geom_vline(xintercept = object$split_value, linetype = 2)
+    )
+  }
+  if (interval) {
+    result <- append(
+      result,
+      ggplot2::geom_errorbar(
+        data =
+          d_raw %>%
+            dplyr::rowwise() %>%
+            dplyr::mutate(new_dist = list(tibble::tribble(
+              ~x, ~ymin, ~ymax,
+              unlist(dist[effective_minindex1, "n_active"]), unlist(dist[effective_minindex1, "U"]), unlist(dist[effective_maxindex1, "U"])
+            ))) %>%
+            tidyr::unnest(new_dist) %>%
+            dplyr::ungroup(),
+        ggplot2::aes(x = x, y = NULL, ymin = ymin, ymax = ymax), color = "red", width = 0.2
+      )
+    )
+    result <- append(
+      result,
+      ggplot2::geom_errorbar(
+        data =
+          d_raw %>%
+            dplyr::rowwise() %>%
+            dplyr::mutate(new_dist = list(tibble::tribble(
+              ~x, ~ymin, ~ymax,
+              unlist(dist[effective_minindex2, "n_active"]), unlist(dist[effective_minindex2, "U"]), unlist(dist[effective_maxindex2, "U"])
+            ))) %>%
+            tidyr::unnest(new_dist) %>%
+            dplyr::ungroup(),
+        ggplot2::aes(x = x, y = NULL, ymin = ymin, ymax = ymax), color = "blue", width = 0.2
+      )
+    )
+  }
+
+  if (stability_value) {
+    result <- append(
+      result,
+      ggplot2::geom_text(
+        data = d_raw %>%
+          dplyr::rowwise() %>%
+          dplyr::mutate(
+            x = unlist(dist[effective_minindex1, "n_active"]) - 0.5,
+            y = unlist(dist[effective_maxindex1, "U"])
+          ) %>%
+          dplyr::ungroup(),
+        ggplot2::aes(x = x, y = y, label = sprintf("%.2f", stability1)), color = "red"
+      )
+    )
+
+
+    result <- append(
+      result,
+      ggplot2::geom_text(
+        data = d_raw %>%
+          dplyr::rowwise() %>%
+          dplyr::mutate(
+            x = unlist(dist[effective_minindex2, "n_active"]) + 0.5,
+            y = unlist(dist[effective_maxindex2, "U"])
+          ) %>%
+          dplyr::ungroup(),
+        ggplot2::aes(x = x, y = y, label = sprintf("%.2f", stability2)), color = "blue"
+      )
+    )
+  }
+  return(result)
+}
+
 
 #' @export
 #' @inheritParams print.barrier_2d_Isingland
@@ -204,7 +339,7 @@ print.stability_2d_Isingland <- function(x, simplify = FALSE, ...) {
 
 #' @export
 print.stability_2d_Isingland_matrix <- function(x, ...) {
-  x <- x %>%
+  x <- x$dist %>%
     dplyr::rowwise() %>%
     dplyr::mutate(stability = purrr::quietly(print)(stability, simplify = TRUE)$result) %>%
     dplyr::ungroup()
@@ -224,7 +359,7 @@ summary.stability_2d_Isingland <- function(object, ...) {
 #' @export
 #' @inheritParams base::summary
 summary.stability_2d_Isingland_matrix <- function(object, ...) {
-  object %>%
+  object$dist %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
       stability_measures = list(summary(stability)),

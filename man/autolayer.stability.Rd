@@ -3,6 +3,7 @@
 \name{autolayer.stability}
 \alias{autolayer.stability}
 \alias{autolayer.stability_2d_Isingland}
+\alias{autolayer.stability_2d_Isingland_matrix}
 \title{Get ggplot2 layers of stability metrics to add to the landscape plots}
 \usage{
 \method{autolayer}{stability_2d_Isingland}(
@@ -14,9 +15,19 @@
   stability_value = TRUE,
   ...
 )
+
+\method{autolayer}{stability_2d_Isingland_matrix}(
+  object,
+  point = TRUE,
+  line = TRUE,
+  split_value = TRUE,
+  interval = TRUE,
+  stability_value = TRUE,
+  ...
+)
 }
 \arguments{
-\item{object}{A \code{stability} object calculated by \code{\link[=calculate_stability]{calculate_stability()}}}
+\item{object}{A \code{stability} object calculated by \code{\link[=calculate_stability]{calculate_stability()}} or \code{\link[=calculate_stability.2d_Isingland]{calculate_stability.2d_Isingland()}}.}
 
 \item{point, line, split_value, interval, stability_value}{Show those elements on the layer? Default is \code{TRUE} for all of them.}
 
