@@ -4,7 +4,7 @@
 \alias{make_2d_Isingland}
 \title{Make a 2D landscape for an Ising network}
 \usage{
-make_2d_Isingland(thresholds, weiadj, beta = 1, transform = FALSE)
+make_2d_Isingland(thresholds, weiadj, beta = 1, transform = TRUE)
 }
 \arguments{
 \item{thresholds, weiadj}{The thresholds and the weighted adjacency matrix

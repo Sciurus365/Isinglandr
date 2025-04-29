@@ -51,9 +51,9 @@
 #' result1 <- make_2d_Isingland(m, w)
 #' plot(result1)
 #' @export
-make_2d_Isingland <- function(thresholds, weiadj, beta = 1, transform = FALSE) {
-  if (!transform) {
-    cli::cli_inform("The Ising network uses -1 and 1 for two states. If it uses 0 and 1, {.strong (which is often the case for psychological datasets)}, set `transform = TRUE`.", .frequency = "regularly", .frequency_id = "Isingland_transform")
+make_2d_Isingland <- function(thresholds, weiadj, beta = 1, transform = TRUE) {
+  if (transform) {
+    cli::cli_inform("{.strong The following reminder can be ignored if you estimated a psychological network with the default setting.} If the Ising network uses -1 and 1, please set `transform = FALSE`.", .frequency = "regularly", .frequency_id = "Isingland_transform")
   }
 
   Nvar <- length(thresholds)
