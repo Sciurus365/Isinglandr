@@ -11,27 +11,58 @@
 #' @param data A matrix of binary data
 #' @inheritParams calculate_stability.2d_Isingland
 #' @inheritParams boot::boot
+#' @param estimator Which package to use for network estimation: `"psychonetrics"` (default) or `"IsingFit"`.
 #' @param IsingFit_options Parameters passed to [IsingFit::IsingFit()]
+#' @param psychonetrics_options Parameters passed to [psychonetrics::Ising()]
 #' @param Isingland_options Parameters passed to [make_2d_Isingland()]
-#' @param ... Parameters passed to [boot::boot()]
+#' @param ... Additional arguments passed to [boot::boot()]
 #'
 #' @export
 #' @references Puth, M.-T., Neuhäuser, M., & Ruxton, G. D. (2015). On the variety of methods for calculating confidence intervals by bootstrapping. Journal of Animal Ecology, 84(4), 892–897. https://doi.org/10.1111/1365-2656.12382
-calculate_stability_se <- function(data, split_value = 0.5 * ncol(data), R = 1000, IsingFit_options = list(plot = FALSE), Isingland_options = list(), ...) {
+calculate_stability_se <- function(
+		data,
+		split_value = 0.5 * ncol(data),
+		R = 1000,
+		estimator = c("psychonetrics", "IsingFit"),
+		IsingFit_options = list(plot = FALSE),
+		psychonetrics_options = list(),
+		Isingland_options = list(),
+		...
+) {
+	estimator <- match.arg(estimator)
+
 	if (ncol(data) >= 20) {
 		cli::cli_warn("The number of variables is large. It may take a long time for bootstrapping.")
 	}
 
-	boot_res <- boot::boot(data = data, statistic = function(x, indices, split_value, .IsingFit_options, .Isingland_options) {
-		n <- do.call(IsingFit::IsingFit, append(.IsingFit_options, list(x = x[indices, ], progressbar = FALSE), after = 0))
-		l <- do.call(make_2d_Isingland, append(.Isingland_options, list(thresholds = n$thresholds, weiadj = n$weiadj), after = 0))
+	boot_res <- boot::boot(data = data, statistic = function(x, indices, split_value, .estimator, .IsingFit_options, .psychonetrics_options, .Isingland_options) {
+		x_boot <- x[indices, ]
+
+		if (.estimator == "IsingFit") {
+			n <- do.call(IsingFit::IsingFit, append(.IsingFit_options, list(x = x_boot, progressbar = FALSE), after = 0))
+			thresholds <- n$thresholds
+			weiadj <- n$weiadj
+		} else if (.estimator == "psychonetrics") {
+			model <- do.call(psychonetrics::Ising, append(.psychonetrics_options, list(data = x_boot)))
+			model <- psychonetrics::runmodel(model)
+			thresholds <- psychonetrics::getmatrix(model, "tau")
+			weiadj <- psychonetrics::getmatrix(model, "omega")
+		}
+
+		l <- do.call(make_2d_Isingland, append(.Isingland_options, list(thresholds = thresholds, weiadj = weiadj), after = 0))
 		s <- calculate_stability.2d_Isingland(l, split_value = split_value)
 		c("stability1" = s$stability1, "stability2" = s$stability2, "stability_diff" = s$stability_diff)
-	}, R = R, split_value = split_value, .IsingFit_options = IsingFit_options, .Isingland_options = Isingland_options, ...)
+	},
+	R = R,
+	split_value = split_value,
+	.estimator = estimator,
+	.IsingFit_options = IsingFit_options,
+	.psychonetrics_options = psychonetrics_options,
+	.Isingland_options = Isingland_options,
+	...
+	)
 
 	output <- broom::tidy(boot_res)
-
-	## in the following code, if you got this error, "estimated adjustment 'a' is NA", that probably means you should increase the number of bootstrap samples (`R`).
 
 	tryCatch({
 		output <- output %>%
@@ -73,7 +104,19 @@ print.stability_se <- function(x, ...) {
 #' @rdname calculate_stability_se
 #' @param data1,data2 Two matrices of binary data
 #' @export
-compare_stability <- function(data1, data2, split_value = 0.5 * ncol(data), R = 1000, IsingFit_options = list(plot = FALSE), Isingland_options = list(), ...) {
+compare_stability <- function(
+		data1,
+		data2,
+		split_value = 0.5 * ncol(data1),
+		R = 1000,
+		estimator = c("psychonetrics", "IsingFit"),
+		IsingFit_options = list(plot = FALSE),
+		psychonetrics_options = list(),
+		Isingland_options = list(),
+		...
+) {
+	estimator <- match.arg(estimator)
+
 	if (ncol(data1) >= 20) {
 		cli::cli_warn("The number of variables is large. It may take a long time for bootstrapping.")
 	}
@@ -84,26 +127,55 @@ compare_stability <- function(data1, data2, split_value = 0.5 * ncol(data), R = 
 
 	data1 <- cbind(data1, group = 1)
 	data2 <- cbind(data2, group = 2)
-
 	data <- rbind(data1, data2)
 
-	boot_res <- boot::boot(data = data, statistic = function(x, indices, split_value, .IsingFit_options, .Isingland_options) {
-		x <- x[indices,]
-		x1 <- x[x[,"group"] == 1, -ncol(x)]
-		x2 <- x[x[,"group"] == 2, -ncol(x)]
+	boot_res <- boot::boot(data = data, statistic = function(x, indices, split_value, .estimator, .IsingFit_options, .psychonetrics_options, .Isingland_options) {
+		x <- x[indices, ]
+		x1 <- x[x[, "group"] == 1, -ncol(x)]
+		x2 <- x[x[, "group"] == 2, -ncol(x)]
 
-		n1 <- do.call(IsingFit::IsingFit, append(.IsingFit_options, list(x = x1, progressbar = FALSE), after = 0))
-		n2 <- do.call(IsingFit::IsingFit, append(.IsingFit_options, list(x = x2, progressbar = FALSE), after = 0))
-		l1 <- do.call(make_2d_Isingland, append(.Isingland_options, list(thresholds = n1$thresholds, weiadj = n1$weiadj), after = 0))
-		l2 <- do.call(make_2d_Isingland, append(.Isingland_options, list(thresholds = n2$thresholds, weiadj = n2$weiadj), after = 0))
+		if (.estimator == "IsingFit") {
+			n1 <- do.call(IsingFit::IsingFit, append(.IsingFit_options, list(x = x1, progressbar = FALSE), after = 0))
+			n2 <- do.call(IsingFit::IsingFit, append(.IsingFit_options, list(x = x2, progressbar = FALSE), after = 0))
+			thresholds1 <- n1$thresholds
+			weiadj1 <- n1$weiadj
+			thresholds2 <- n2$thresholds
+			weiadj2 <- n2$weiadj
+		} else if (.estimator == "psychonetrics") {
+			model1 <- do.call(psychonetrics::Ising, append(.psychonetrics_options, list(data = x1)))
+			model1 <- psychonetrics::runmodel(model1)
+			thresholds1 <- psychonetrics::getmatrix(model1, "tau")
+			weiadj1 <- psychonetrics::getmatrix(model1, "omega")
+
+			model2 <- do.call(psychonetrics::Ising, append(.psychonetrics_options, list(data = x2)))
+			model2 <- psychonetrics::runmodel(model2)
+			thresholds2 <- psychonetrics::getmatrix(model2, "tau")
+			weiadj2 <- psychonetrics::getmatrix(model2, "omega")
+		}
+
+		l1 <- do.call(make_2d_Isingland, append(.Isingland_options, list(thresholds = thresholds1, weiadj = weiadj1), after = 0))
+		l2 <- do.call(make_2d_Isingland, append(.Isingland_options, list(thresholds = thresholds2, weiadj = weiadj2), after = 0))
 		s1 <- calculate_stability.2d_Isingland(l1, split_value = split_value)
 		s2 <- calculate_stability.2d_Isingland(l2, split_value = split_value)
 
-		c("group1_stability1" = s1$stability1, "group1_stability2" = s1$stability2,
-			"group1_stability_diff" = s1$stability_diff, "group2_stability1" = s2$stability1,
-			"group2_stability2" = s2$stability2, "group2_stability_diff" = s2$stability_diff,
-			"diff_stability_diff" = s1$stability_diff - s2$stability_diff)
-	}, R = R, split_value = split_value, .IsingFit_options = IsingFit_options, .Isingland_options = Isingland_options, ...)
+		c(
+			"group1_stability1" = s1$stability1,
+			"group1_stability2" = s1$stability2,
+			"group1_stability_diff" = s1$stability_diff,
+			"group2_stability1" = s2$stability1,
+			"group2_stability2" = s2$stability2,
+			"group2_stability_diff" = s2$stability_diff,
+			"diff_stability_diff" = s1$stability_diff - s2$stability_diff
+		)
+	},
+	R = R,
+	split_value = split_value,
+	.estimator = estimator,
+	.IsingFit_options = IsingFit_options,
+	.psychonetrics_options = psychonetrics_options,
+	.Isingland_options = Isingland_options,
+	...
+	)
 
 	output <- broom::tidy(boot_res)
 
@@ -132,3 +204,4 @@ compare_stability <- function(data1, data2, split_value = 0.5 * ncol(data), R = 
 		)
 	)
 }
+

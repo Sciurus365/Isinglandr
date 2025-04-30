@@ -5,6 +5,10 @@ suitable for the `Isinglandr` package, which is designed to work with
 networks estimated from psychological data. The `transform = FALSE` option 
 is still available for users who want to work with Ising networks with -1 and
 1 values.
+- `calculate_stability_se()` and `compare_stability()` functions now can use the
+`psychonetrics` package to estimate the networks, and `psychonetrics` is now set
+as the default package for estimating networks. The `IsingFit` package is still
+available for users who want to use it.
 - Added functions `calculate_stability_se()` and `compare_stability()` for calculating the standard error of the stability metrics and comparing the stability metrics between two networks, respectively.
 - Added the `autolayer.stability_2d_Isingland_matrix()` method. The structure of the `stability_2d_Isingland_matrix` objects changes slightly to accommodate the new method. Users may need to re-generate previously `stability_2d_Isingland_matrix` objects
 - Bug-fix for `make_3d_Isingland()`:

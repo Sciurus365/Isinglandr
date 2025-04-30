@@ -34,6 +34,7 @@ Imports:
     magrittr,
     methods,
     plotly,
+    psychonetrics,
     purrr,
     rlang,
     shiny,

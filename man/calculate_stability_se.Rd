@@ -10,7 +10,9 @@ calculate_stability_se(
   data,
   split_value = 0.5 * ncol(data),
   R = 1000,
+  estimator = c("psychonetrics", "IsingFit"),
   IsingFit_options = list(plot = FALSE),
+  psychonetrics_options = list(),
   Isingland_options = list(),
   ...
 )
@@ -20,9 +22,11 @@ calculate_stability_se(
 compare_stability(
   data1,
   data2,
-  split_value = 0.5 * ncol(data),
+  split_value = 0.5 * ncol(data1),
   R = 1000,
+  estimator = c("psychonetrics", "IsingFit"),
   IsingFit_options = list(plot = FALSE),
+  psychonetrics_options = list(),
   Isingland_options = list(),
   ...
 )
@@ -41,11 +45,15 @@ compare_stability(
     weights.
   }
 
+\item{estimator}{Which package to use for network estimation: \code{"psychonetrics"} (default) or \code{"IsingFit"}.}
+
 \item{IsingFit_options}{Parameters passed to \code{\link[IsingFit:isingfit]{IsingFit::IsingFit()}}}
+
+\item{psychonetrics_options}{Parameters passed to \code{\link[psychonetrics:Ising]{psychonetrics::Ising()}}}
 
 \item{Isingland_options}{Parameters passed to \code{\link[=make_2d_Isingland]{make_2d_Isingland()}}}
 
-\item{...}{Parameters passed to \code{\link[boot:boot]{boot::boot()}}}
+\item{...}{Additional arguments passed to \code{\link[boot:boot]{boot::boot()}}}
 
 \item{x}{An object of class \code{stability_se}}
 
