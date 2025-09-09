@@ -42,7 +42,9 @@
 <span>  <span class="va">data</span>,</span>
 <span>  split_value <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>,</span>
 <span>  R <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  estimator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"psychonetrics"</span>, <span class="st">"IsingFit"</span><span class="op">)</span>,</span>
 <span>  IsingFit_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>  psychonetrics_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  Isingland_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -53,9 +55,11 @@
 <span><span class="fu">compare_stability</span><span class="op">(</span></span>
 <span>  <span class="va">data1</span>,</span>
 <span>  <span class="va">data2</span>,</span>
-<span>  split_value <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>,</span>
+<span>  split_value <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">data1</span><span class="op">)</span>,</span>
 <span>  R <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  estimator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"psychonetrics"</span>, <span class="st">"IsingFit"</span><span class="op">)</span>,</span>
 <span>  IsingFit_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>  psychonetrics_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  Isingland_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -82,8 +86,16 @@
     weights.</p></dd>
 
 
+<dt id="arg-estimator">estimator<a class="anchor" aria-label="anchor" href="#arg-estimator"></a></dt>
+<dd><p>Which package to use for network estimation: <code>"psychonetrics"</code> (default) or <code>"IsingFit"</code>.</p></dd>
+
+
 <dt id="arg-isingfit-options">IsingFit_options<a class="anchor" aria-label="anchor" href="#arg-isingfit-options"></a></dt>
 <dd><p>Parameters passed to <code><a href="https://rdrr.io/pkg/IsingFit/man/isingfit.html" class="external-link">IsingFit::IsingFit()</a></code></p></dd>
+
+
+<dt id="arg-psychonetrics-options">psychonetrics_options<a class="anchor" aria-label="anchor" href="#arg-psychonetrics-options"></a></dt>
+<dd><p>Parameters passed to <code><a href="https://rdrr.io/pkg/psychonetrics/man/Ising.html" class="external-link">psychonetrics::Ising()</a></code></p></dd>
 
 
 <dt id="arg-isingland-options">Isingland_options<a class="anchor" aria-label="anchor" href="#arg-isingland-options"></a></dt>
@@ -91,7 +103,7 @@
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Parameters passed to <code><a href="https://rdrr.io/pkg/boot/man/boot.html" class="external-link">boot::boot()</a></code></p></dd>
+<dd><p>Additional arguments passed to <code><a href="https://rdrr.io/pkg/boot/man/boot.html" class="external-link">boot::boot()</a></code></p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
@@ -122,7 +134,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
