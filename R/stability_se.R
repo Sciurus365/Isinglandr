@@ -35,32 +35,34 @@ calculate_stability_se <- function(
 		cli::cli_warn("The number of variables is large. It may take a long time for bootstrapping.")
 	}
 
-	boot_res <- boot::boot(data = data, statistic = function(x, indices, split_value, .estimator, .IsingFit_options, .psychonetrics_options, .Isingland_options) {
+	# BCa may call the statistic again without boot()'s extra arguments.
+	force(split_value)
+	force(IsingFit_options)
+	force(psychonetrics_options)
+	force(Isingland_options)
+	statistic <- function(x, indices) {
 		x_boot <- x[indices, ]
 
-		if (.estimator == "IsingFit") {
-			n <- do.call(IsingFit::IsingFit, append(.IsingFit_options, list(x = x_boot, progressbar = FALSE), after = 0))
+		if (estimator == "IsingFit") {
+			n <- do.call(IsingFit::IsingFit, append(IsingFit_options, list(x = x_boot, progressbar = FALSE), after = 0))
 			thresholds <- n$thresholds
 			weiadj <- n$weiadj
-		} else if (.estimator == "psychonetrics") {
-			model <- do.call(psychonetrics::Ising, append(.psychonetrics_options, list(data = x_boot)))
+		} else if (estimator == "psychonetrics") {
+			model <- do.call(psychonetrics::Ising, append(psychonetrics_options, list(data = x_boot)))
 			model <- psychonetrics::runmodel(model)
 			thresholds <- psychonetrics::getmatrix(model, "tau")
 			weiadj <- psychonetrics::getmatrix(model, "omega")
 		}
 
-		l <- do.call(make_2d_Isingland, append(.Isingland_options, list(thresholds = thresholds, weiadj = weiadj), after = 0))
+		l <- do.call(make_2d_Isingland, append(Isingland_options, list(thresholds = thresholds, weiadj = weiadj), after = 0))
 		s <- calculate_stability.2d_Isingland(l, split_value = split_value)
 		c("stability1" = s$stability1, "stability2" = s$stability2, "stability_diff" = s$stability_diff)
-	},
-	R = R,
-	split_value = split_value,
-	.estimator = estimator,
-	.IsingFit_options = IsingFit_options,
-	.psychonetrics_options = psychonetrics_options,
-	.Isingland_options = Isingland_options,
-	...
-	)
+	}
+	boot_res <- boot::boot(data = data, statistic = statistic, R = R, ...)
+
+	if (boot_res$R < NROW(boot_res$data)) {
+		cli::cli_inform("R ({boot_res$R}) is smaller than n ({NROW(boot_res$data)}); BCa will use jackknife influence values.")
+	}
 
 	output <- broom::tidy(boot_res)
 
@@ -129,32 +131,37 @@ compare_stability <- function(
 	data2 <- cbind(data2, group = 2)
 	data <- rbind(data1, data2)
 
-	boot_res <- boot::boot(data = data, statistic = function(x, indices, split_value, .estimator, .IsingFit_options, .psychonetrics_options, .Isingland_options) {
+	# BCa may call the statistic again without boot()'s extra arguments.
+	force(split_value)
+	force(IsingFit_options)
+	force(psychonetrics_options)
+	force(Isingland_options)
+	statistic <- function(x, indices) {
 		x <- x[indices, ]
 		x1 <- x[x[, "group"] == 1, -ncol(x)]
 		x2 <- x[x[, "group"] == 2, -ncol(x)]
 
-		if (.estimator == "IsingFit") {
-			n1 <- do.call(IsingFit::IsingFit, append(.IsingFit_options, list(x = x1, progressbar = FALSE), after = 0))
-			n2 <- do.call(IsingFit::IsingFit, append(.IsingFit_options, list(x = x2, progressbar = FALSE), after = 0))
+		if (estimator == "IsingFit") {
+			n1 <- do.call(IsingFit::IsingFit, append(IsingFit_options, list(x = x1, progressbar = FALSE), after = 0))
+			n2 <- do.call(IsingFit::IsingFit, append(IsingFit_options, list(x = x2, progressbar = FALSE), after = 0))
 			thresholds1 <- n1$thresholds
 			weiadj1 <- n1$weiadj
 			thresholds2 <- n2$thresholds
 			weiadj2 <- n2$weiadj
-		} else if (.estimator == "psychonetrics") {
-			model1 <- do.call(psychonetrics::Ising, append(.psychonetrics_options, list(data = x1)))
+		} else if (estimator == "psychonetrics") {
+			model1 <- do.call(psychonetrics::Ising, append(psychonetrics_options, list(data = x1)))
 			model1 <- psychonetrics::runmodel(model1)
 			thresholds1 <- psychonetrics::getmatrix(model1, "tau")
 			weiadj1 <- psychonetrics::getmatrix(model1, "omega")
 
-			model2 <- do.call(psychonetrics::Ising, append(.psychonetrics_options, list(data = x2)))
+			model2 <- do.call(psychonetrics::Ising, append(psychonetrics_options, list(data = x2)))
 			model2 <- psychonetrics::runmodel(model2)
 			thresholds2 <- psychonetrics::getmatrix(model2, "tau")
 			weiadj2 <- psychonetrics::getmatrix(model2, "omega")
 		}
 
-		l1 <- do.call(make_2d_Isingland, append(.Isingland_options, list(thresholds = thresholds1, weiadj = weiadj1), after = 0))
-		l2 <- do.call(make_2d_Isingland, append(.Isingland_options, list(thresholds = thresholds2, weiadj = weiadj2), after = 0))
+		l1 <- do.call(make_2d_Isingland, append(Isingland_options, list(thresholds = thresholds1, weiadj = weiadj1), after = 0))
+		l2 <- do.call(make_2d_Isingland, append(Isingland_options, list(thresholds = thresholds2, weiadj = weiadj2), after = 0))
 		s1 <- calculate_stability.2d_Isingland(l1, split_value = split_value)
 		s2 <- calculate_stability.2d_Isingland(l2, split_value = split_value)
 
@@ -167,15 +174,12 @@ compare_stability <- function(
 			"group2_stability_diff" = s2$stability_diff,
 			"diff_stability_diff" = s1$stability_diff - s2$stability_diff
 		)
-	},
-	R = R,
-	split_value = split_value,
-	.estimator = estimator,
-	.IsingFit_options = IsingFit_options,
-	.psychonetrics_options = psychonetrics_options,
-	.Isingland_options = Isingland_options,
-	...
-	)
+	}
+	boot_res <- boot::boot(data = data, statistic = statistic, R = R, ...)
+
+	if (boot_res$R < NROW(boot_res$data)) {
+		cli::cli_inform("R ({boot_res$R}) is smaller than the combined n ({NROW(boot_res$data)}); BCa will use jackknife influence values.")
+	}
 
 	output <- broom::tidy(boot_res)
 
