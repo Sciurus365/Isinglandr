@@ -1,0 +1,159 @@
+# `Isinglandr`: Landscape Construction and Simulation for Ising Networks
+
+A toolbox for constructing potential landscapes for Ising networks. The
+parameters of the networks can be directly supplied by users or
+estimated by the `IsingFit` package by van Borkulo and Epskamp (2016)
+<https://CRAN.R-project.org/package=IsingFit> from empirical data. The
+Ising model’s Boltzmann distribution is preserved for the potential
+landscape function. The landscape functions can be used for quantifying
+and visualizing the stability of network states, as well as visualizing
+the simulation process.
+
+## Installation
+
+You can install the development version of Isinglandr from
+[GitHub](https://github.com/) with:
+
+``` r
+
+# install.packages("devtools")
+devtools::install_github("Sciurus365/Isinglandr")
+```
+
+## Example
+
+### Landscape construction
+
+``` r
+
+library(Isinglandr)
+#> Registered S3 method overwritten by 'Isinglandr':
+#>   method          from    
+#>   print.landscape simlandr
+#  A toy network and its landscape
+Nvar <- 10
+m <- rep(0, Nvar)
+w <- matrix(0.1, Nvar, Nvar)
+diag(w) <- 0
+
+result1 <- make_2d_Isingland(m, w)
+plot(result1)
+```
+
+![](reference/figures/README-example-1.png)
+
+``` r
+
+
+## What if the network becomes denser?
+result2 <- make_2d_Isingland(m, 1.5 * w)
+plot(result2)
+```
+
+![](reference/figures/README-example-2.png)
+
+``` r
+
+
+## What if the thresholds become lower?
+result3 <- make_2d_Isingland(m - 0.5, w)
+plot(result3)
+```
+
+![](reference/figures/README-example-3.png)
+
+``` r
+
+
+## Multiple networks together
+result4 <- make_Ising_grid(
+  all_thresholds(seq(-0.1, 0.1, 0.1), .f = `+`),
+  whole_weiadj(seq(0.5, 1.5, 0.5)),
+  m, w
+) %>% make_2d_Isingland_matrix()
+plot(result4)
+#> Scale for x is already present.
+#> Adding another scale for x, which will replace the existing scale.
+```
+
+![](reference/figures/README-example-4.png)
+
+### Simulation on landscapes
+
+``` r
+
+set.seed(1614)
+sim1 <- simulate_Isingland(result1, initial = 5)
+plot(sim1)
+```
+
+![](reference/figures/README-unnamed-chunk-2-1.gif)
+
+``` r
+
+
+set.seed(1614)
+sim4 <- simulate_Isingland(result4, initial = 5)
+plot(sim4)
+```
+
+![](reference/figures/README-unnamed-chunk-2-2.gif)
+
+## Shiny app
+
+A shiny app is included in this package to show the landscape for the
+Ising network of major depressive disorder. The network parameters can
+be manipulated to see how they influence the landscape and the
+simulation. Run
+[`shiny_Isingland_MDD()`](https://sciurus365.github.io/Isinglandr/reference/shiny_Isingland_MDD.md)
+to start it.
+
+# Package index
+
+## All functions
+
+- [`MDDConnectivity`](https://sciurus365.github.io/Isinglandr/reference/MDDNetwork.md)
+  [`MDDThresholds`](https://sciurus365.github.io/Isinglandr/reference/MDDNetwork.md)
+  : Estimation data for the Ising network of major depressive disorder
+- [`autolayer(`*`<stability_2d_Isingland>`*`)`](https://sciurus365.github.io/Isinglandr/reference/autolayer.stability.md)
+  [`autolayer(`*`<stability_2d_Isingland_matrix>`*`)`](https://sciurus365.github.io/Isinglandr/reference/autolayer.stability.md)
+  : Get ggplot2 layers of stability metrics to add to the landscape
+  plots
+- [`calculate_barrier(`*`<2d_Isingland>`*`)`](https://sciurus365.github.io/Isinglandr/reference/calculate_barrier.Isingland.md)
+  [`calculate_barrier(`*`<2d_Isingland_matrix>`*`)`](https://sciurus365.github.io/Isinglandr/reference/calculate_barrier.Isingland.md)
+  [`print(`*`<barrier_2d_Isingland>`*`)`](https://sciurus365.github.io/Isinglandr/reference/calculate_barrier.Isingland.md)
+  [`summary(`*`<barrier_2d_Isingland>`*`)`](https://sciurus365.github.io/Isinglandr/reference/calculate_barrier.Isingland.md)
+  [`summary(`*`<barrier_2d_Isingland_matrix>`*`)`](https://sciurus365.github.io/Isinglandr/reference/calculate_barrier.Isingland.md)
+  : Calculate energy barrier for Ising landscapes
+- [`calculate_stability()`](https://sciurus365.github.io/Isinglandr/reference/calculate_stability.md)
+  : Calculate the stability metrics for Ising landscapes
+- [`calculate_stability_se()`](https://sciurus365.github.io/Isinglandr/reference/calculate_stability_se.md)
+  [`print(`*`<stability_se>`*`)`](https://sciurus365.github.io/Isinglandr/reference/calculate_stability_se.md)
+  [`compare_stability()`](https://sciurus365.github.io/Isinglandr/reference/calculate_stability_se.md)
+  : Calculate the standard error, confidence interval, and p-value for
+  the stability metrics of an Ising landscape using bootstrapping
+- [`chain_simulate_Isingland()`](https://sciurus365.github.io/Isinglandr/reference/chain_simulate_Isingland.md)
+  [`make_Ising_chain()`](https://sciurus365.github.io/Isinglandr/reference/chain_simulate_Isingland.md)
+  : Make Ising chains from (a series of) Ising grid(s) and perform a
+  chain simulation.
+- [`make_2d_Isingland()`](https://sciurus365.github.io/Isinglandr/reference/make_2d_Isingland.md)
+  : Make a 2D landscape for an Ising network
+- [`make_2d_Isingland_matrix()`](https://sciurus365.github.io/Isinglandr/reference/make_2d_Isingland_matrix.md)
+  : Make a matrix of landscapes for multiple Ising networks
+- [`make_3d_Isingland()`](https://sciurus365.github.io/Isinglandr/reference/make_3d_Isingland.md)
+  : Make a 3D landscape for an Ising network
+- [`single_threshold()`](https://sciurus365.github.io/Isinglandr/reference/make_Ising_grid-control-functions.md)
+  [`single_wei()`](https://sciurus365.github.io/Isinglandr/reference/make_Ising_grid-control-functions.md)
+  [`all_thresholds()`](https://sciurus365.github.io/Isinglandr/reference/make_Ising_grid-control-functions.md)
+  [`whole_weiadj()`](https://sciurus365.github.io/Isinglandr/reference/make_Ising_grid-control-functions.md)
+  [`beta_list()`](https://sciurus365.github.io/Isinglandr/reference/make_Ising_grid-control-functions.md)
+  : Control Functions to Specify the Varying Parameters for an Ising
+  Grid.
+- [`make_Ising_grid()`](https://sciurus365.github.io/Isinglandr/reference/make_Ising_grid.md)
+  : Make a Grid to Specify Multiple Ising Networks
+- [`shiny_Isingland_MDD()`](https://sciurus365.github.io/Isinglandr/reference/shiny_Isingland_MDD.md)
+  : A shiny app that shows the landscape for the Ising network of major
+  depressive disorder
+- [`simulate_Isingland()`](https://sciurus365.github.io/Isinglandr/reference/simulate_Isingland.md)
+  : Simulate a 2D Ising landscape
+
