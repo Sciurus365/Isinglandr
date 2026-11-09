@@ -67,7 +67,7 @@ Use \code{\link[=calculate_stability_se]{calculate_stability_se()}} for a single
 
 If you encounter the error message "Error in if (any(ints)) out[inds[ints]] <- tstar[k[inds[ints]]] : missing value where TRUE/FALSE needed", you may need to install the patched version of the \code{boot.pval} package with \code{pak::pkg_install("Sciurus365/boot.pval@patch-1")}. See \url{https://github.com/mthulin/boot.pval/issues/4}.
 
-If you encounter the error message "estimated adjustment 'a' is NA", that probably means you should increase the number of bootstrap samples (\code{R}). See \url{https://stats.stackexchange.com/questions/37918/why-is-the-error-estimated-adjustment-a-is-na-generated-from-r-boot-package}.
+If a BCa adjustment ('a' or 'w') is NA or infinite, try increasing the number of bootstrap samples (\code{R}). This may help but is not guaranteed to resolve the error. See \url{https://stats.stackexchange.com/questions/37918/why-is-the-error-estimated-adjustment-a-is-na-generated-from-r-boot-package}.
 }
 \references{
 Puth, M.-T., Neuhäuser, M., & Ruxton, G. D. (2015). On the variety of methods for calculating confidence intervals by bootstrapping. Journal of Animal Ecology, 84(4), 892–897. https://doi.org/10.1111/1365-2656.12382

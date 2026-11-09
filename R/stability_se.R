@@ -6,7 +6,7 @@
 #'
 #' If you encounter the error message "Error in if (any(ints)) out\[inds\[ints\]\] <- tstar\[k\[inds\[ints\]\]\] : missing value where TRUE/FALSE needed", you may need to install the patched version of the `boot.pval` package with `pak::pkg_install("Sciurus365/boot.pval@patch-1")`. See \url{https://github.com/mthulin/boot.pval/issues/4}.
 #'
-#' If you encounter the error message "estimated adjustment 'a' is NA", that probably means you should increase the number of bootstrap samples (`R`). See \url{https://stats.stackexchange.com/questions/37918/why-is-the-error-estimated-adjustment-a-is-na-generated-from-r-boot-package}.
+#' If a BCa adjustment ('a' or 'w') is NA or infinite, try increasing the number of bootstrap samples (`R`). This may help but is not guaranteed to resolve the error. See \url{https://stats.stackexchange.com/questions/37918/why-is-the-error-estimated-adjustment-a-is-na-generated-from-r-boot-package}.
 #'
 #' @param data A matrix of binary data
 #' @inheritParams calculate_stability.2d_Isingland
@@ -81,7 +81,7 @@ calculate_stability_se <- function(
 		original_message <- conditionMessage(e)
 		cli::cli_abort(c("An error occurred. The original error message is as follows:",
 										 x = original_message,
-										 i = "If you got this error, 'estimated adjustment 'a' is NA', that probably means you should increase the number of bootstrap samples (`R`)."))
+										 i = "If a BCa adjustment ('a' or 'w') is NA or infinite, try increasing the number of bootstrap samples (`R`). This may help but is not guaranteed to resolve the error."))
 	})
 
 	return(
@@ -198,7 +198,7 @@ compare_stability <- function(
 		original_message <- conditionMessage(e)
 		cli::cli_abort(c("An error occurred. The original error message is as follows:",
 										 x = original_message,
-										 i = "If you got this error, 'estimated adjustment 'a' is NA', that probably means you should increase the number of bootstrap samples (`R`)."))
+										 i = "If a BCa adjustment ('a' or 'w') is NA or infinite, try increasing the number of bootstrap samples (`R`). This may help but is not guaranteed to resolve the error."))
 	})
 
 	return(
