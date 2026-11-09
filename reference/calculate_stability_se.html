@@ -118,7 +118,7 @@
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Use <code>calculate_stability_se()</code> for a single dataset, and use <code>compare_stability()</code> for comparing the stability metrics of two groups.</p>
 <p>If you encounter the error message "Error in if (any(ints)) out[inds[ints]] &lt;- tstar[k[inds[ints]]] : missing value where TRUE/FALSE needed", you may need to install the patched version of the <code>boot.pval</code> package with <code>pak::pkg_install("Sciurus365/boot.pval@patch-1")</code>. See <a href="https://github.com/mthulin/boot.pval/issues/4" class="external-link">https://github.com/mthulin/boot.pval/issues/4</a>.</p>
-<p>If you encounter the error message "estimated adjustment 'a' is NA", that probably means you should increase the number of bootstrap samples (<code>R</code>). See <a href="https://stats.stackexchange.com/questions/37918/why-is-the-error-estimated-adjustment-a-is-na-generated-from-r-boot-package" class="external-link">https://stats.stackexchange.com/questions/37918/why-is-the-error-estimated-adjustment-a-is-na-generated-from-r-boot-package</a>.</p>
+<p>If a BCa adjustment ('a' or 'w') is NA or infinite, try increasing the number of bootstrap samples (<code>R</code>). This may help but is not guaranteed to resolve the error. See <a href="https://stats.stackexchange.com/questions/37918/why-is-the-error-estimated-adjustment-a-is-na-generated-from-r-boot-package" class="external-link">https://stats.stackexchange.com/questions/37918/why-is-the-error-estimated-adjustment-a-is-na-generated-from-r-boot-package</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

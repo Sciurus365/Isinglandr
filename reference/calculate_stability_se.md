@@ -101,9 +101,9 @@ TRUE/FALSE needed", you may need to install the patched version of the
 `pak::pkg_install("Sciurus365/boot.pval@patch-1")`. See
 <https://github.com/mthulin/boot.pval/issues/4>.
 
-If you encounter the error message "estimated adjustment 'a' is NA",
-that probably means you should increase the number of bootstrap samples
-(`R`). See
+If a BCa adjustment ('a' or 'w') is NA or infinite, try increasing the
+number of bootstrap samples (`R`). This may help but is not guaranteed
+to resolve the error. See
 <https://stats.stackexchange.com/questions/37918/why-is-the-error-estimated-adjustment-a-is-na-generated-from-r-boot-package>.
 
 ## References
